@@ -1,0 +1,77 @@
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  gap: 20px;
+  background-color: white;
+  justify-content: center;
+  height: fit-content;
+  justify-content: center;
+}
+.textCenter {
+  text-align: center;
+}
+.inputBox {
+  background: white;
+  width: 400px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid gray !important;
+  border: none;
+  outline: none;
+  color: black;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.btn:hover {
+  background-color: rgb(43, 48, 45);
+  outline: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-bottom: 20px;
+}
+.subheader1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.subheader2 {
+  font-size: 12px;
+  font-weight: semi-bold;
+  margin-top: -5px;
+}
+.inward-border:hover {
+  box-shadow: inset 0 0 0 3px #aaaaaa;
+}
+.inward-border {
+  transition: box-shadow 0.3s ease;
+  box-shadow: inset 0 0 0 0 transparent;
+  display: flex;
+  align-content: space-between;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid gray;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.backgroundContainer {
+  background-color: rgb(24, 35, 41);
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  background-image: url("/Users/reshma/Downloads/Portfolio-Management-System/folio/src/assets/image copy 2.png");
+  height: calc(100vh - 0px);
+  width: 100vw;
+}
