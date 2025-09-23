@@ -66,7 +66,7 @@ function Landing() {
                     </div>
                 </div>
                 <div style={{flex: 1.75, 
-                             backgroundImage: "url('/images/banner-4.jpg')", 
+                             backgroundImage: "url('/images/banner.jpg')", 
                              backgroundSize: "cover"}}/>
             </div>
         </Content>
