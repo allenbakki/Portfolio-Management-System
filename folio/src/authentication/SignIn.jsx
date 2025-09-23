@@ -26,7 +26,7 @@ function SignIn() {
         if (response.status == 200) {
           history("/");
         }
-        return <Navigate to="/" />;
+        return <Navigate to="/landing" />;
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
