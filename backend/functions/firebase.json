@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "folio/dist",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
