@@ -17,6 +17,7 @@ jobs:
       - name: Install deps & build (folio)
         working-directory: ./folio
         run: |
+          cd folio
           npm ci
           npm run build
 
