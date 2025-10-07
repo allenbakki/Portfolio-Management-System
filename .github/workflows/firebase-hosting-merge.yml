@@ -15,9 +15,8 @@ jobs:
           node-version: '20'
 
       - name: Install deps & build (folio)
-        working-directory: ./folio
         run: |
-          cd folio
+          cd backend/functions/
           npm ci
           npm run build
 
