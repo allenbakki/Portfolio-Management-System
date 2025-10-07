@@ -16,8 +16,9 @@ jobs:
 
       - name: Install deps & build (folio)
         run: |
-          cd backend/functions/
+          cd folio
           npm ci
+          npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
