@@ -30,3 +30,18 @@ setGlobalOptions({ maxInstances: 10 });
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+import express from "express";
+import cors from "cors";
+import { onRequest } from "firebase-functions/v2/https";
+import mainRoute from "./routes/routes.js";
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+app.use("/", mainRoute);
+
+export const api = onRequest(app);
