@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GiButterfly } from 'react-icons/gi';
-import Navbar from "../../components/navbar"
+import Navbar from "../../components/navbar";
+import PortfolioForm from "./portfolioForm";
 import { LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Button, Layout } from "antd";
 
@@ -12,9 +13,7 @@ function Portfolio() {
 
   return (
     <Layout style={{height: "100vh", 
-                    width: "100vw", 
-                    overflow: "hidden"}}>
-
+                    width: "100vw"}}>
         <Sider trigger={null} 
                collapsible 
                collapsed={collapsed}>
@@ -33,7 +32,7 @@ function Portfolio() {
             <Navbar collapsed={collapsed} />
         </Sider>
 
-        <Content style={{height: "100%" }}>
+        <Content style={{height: "100%"}}>
             <div style={{display: "flex", 
                          height: "100%"}}>
                 <div style={{flex: 1, 
@@ -44,13 +43,12 @@ function Portfolio() {
                                 paddingBottom: "40px"}}>
                         <GiButterfly />Folio
                     </h2>
-                        
+                    <PortfolioForm />
                 </div>
             </div>
         </Content>
 
     </Layout>
-
     );
 }
 
