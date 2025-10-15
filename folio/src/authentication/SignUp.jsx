@@ -2,6 +2,8 @@ import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
 import { loginCred } from "../apis/auth";
+import { auth, provider, signInWithPopup } from "../apis/firebase";
+
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
 function SignUp() {
@@ -15,6 +17,17 @@ function SignUp() {
     setLoginDetails((prev) => {
       return { ...prev, [name]: e.target.value };
     });
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google User:", user);
+      history("/"); 
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -66,7 +79,11 @@ function SignUp() {
           <button type="submit" className="btn">
             SignUp
           </button>
-          <div className="inward-border">
+          <div
+            className="inward-border"
+            style={{ cursor: "pointer" }}
+            onClick={handleGoogleLogin}
+          >
             <img
               src={googleIcon}
               width={18}
