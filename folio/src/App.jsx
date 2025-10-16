@@ -6,7 +6,6 @@ import Portfolio from "./pages/portfolio/portfolio";
 import Account from "./pages/account";
 
 function App() {
-  const { isLogggedIn } = useGlobalContext();
 
   return (
     <div>
