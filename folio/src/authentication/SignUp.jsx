@@ -2,11 +2,14 @@ import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
 import { loginCred } from "../apis/auth";
+import { auth, provider, signInWithPopup } from "../apis/firebase";
 import { Navigate, useNavigate, Link } from "react-router-dom";
+import { useGlobalContext } from "../context/GlobalContext";
 
 function SignUp() {
+  const { updateUserDetails } = useGlobalContext();
   const [loginDetails, setLoginDetails] = useState({
-    username: "reshma2001d@gmail.com",
+    email: "reshma2001d@gmail.com",
     password: "reshma@1412",
   });
   const history = useNavigate();
@@ -17,12 +20,33 @@ function SignUp() {
     });
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google User:", user);
+      const newUserDetails = {
+        isLogggedIn: true,
+        ...user.email,...user.displayName,...user.accessToken
+      };
+      updateUserDetails(newUserDetails);
+      history("/"); 
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     loginCred(loginDetails)
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
+          const newUserDetails = {
+            isLogggedIn: true,
+            ...response.data,
+          };
+          updateUserDetails(newUserDetails);
           history("/");
         }
         return <Navigate to="/" />;
@@ -41,14 +65,14 @@ function SignUp() {
             <div className="subheader2">Please signup to continue</div>
           </div>
           <div className="inputContainer">
-            <div>Username</div>
+            <div>Email</div>
             <input
-              type="text"
-              placeholder="Enter Username"
+              type="email"
+              placeholder="Enter Email"
               name="uname"
               required
               className="inputBox"
-              onChange={handleChange("username")}
+              onChange={handleChange("email")}
             />
           </div>
           <div className="inputContainer">
@@ -64,9 +88,13 @@ function SignUp() {
           </div>
 
           <button type="submit" className="btn">
-            SignUp
+            SignIn
           </button>
-          <div className="inward-border">
+          <div
+            className="inward-border"
+            style={{ cursor: "pointer" }}
+            onClick={handleGoogleLogin}
+          >
             <img
               src={googleIcon}
               width={18}
@@ -76,9 +104,9 @@ function SignUp() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Already have an account?{" "}
-            <Link to="/signIn" style={{ color: "gray" }}>
-              SignIn
+            Don't have an account?{" "}
+            <Link to="/signUp" style={{ color: "gray" }}>
+              SignUp
             </Link>
           </div>
         </div>

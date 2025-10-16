@@ -4,11 +4,14 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Layout, Avatar } from "antd";
 import Navbar from "../components/navbar";
 import "./account.css";
+import { useGlobalContext } from "../context/GlobalContext";
 
 const { Sider, Content } = Layout;
 
 function Account() {
   const [collapsed, setCollapsed] = useState(true);
+  const { signOut } = useGlobalContext();
+
 
   return (
     <Layout style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
@@ -40,7 +43,7 @@ function Account() {
             <div className="account-actions">
             <Button type="primary">Edit Profile</Button>
             <Button>Change Password</Button>
-            <Button danger>Log Out</Button>
+            <Button danger onClick={signOut}>Log Out</Button>
             </div>
 
             <div className="account-section">

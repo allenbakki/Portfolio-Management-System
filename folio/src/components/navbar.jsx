@@ -2,10 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { HomeOutlined, UserOutlined, AuditOutlined, SettingOutlined, RocketOutlined, ExperimentOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
+import { useGlobalContext } from "../context/GlobalContext";
 
 const Navbar = ({ collapsed }) => {
   const navigate = useNavigate();
+  const { isLogggedIn } = useGlobalContext();
   const handleMenuClick = (e) => {
+    if(!isLogggedIn){
+      navigate("/signIn");
+    }
+    else{
     switch (e.key) {
       case "home":
         navigate("/");
@@ -19,6 +25,7 @@ const Navbar = ({ collapsed }) => {
       default:
         break;
     }
+  }
   };
 
   return (

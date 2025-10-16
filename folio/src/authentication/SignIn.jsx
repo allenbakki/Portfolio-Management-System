@@ -1,11 +1,14 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
-import { loginCred } from "../apis/auth";
+import { signUpCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
+import { auth, provider, signInWithPopup } from "../apis/firebase";
+import { useGlobalContext } from "../context/GlobalContext";
 
 function SignIn() {
-  const [loginDetails, setLoginDetails] = useState({
+  const { updateUserDetails } = useGlobalContext();
+  const [SignInDetails, setSignInDetails] = useState({
     username: "reshma2001d",
     email: "reshma2001d@gmail.com",
     password: "reshma@1412",
@@ -14,16 +17,35 @@ function SignIn() {
   const history = useNavigate();
 
   const handleChange = (name) => (e) => {
-    setLoginDetails((prev) => {
+    setSignInDetails((prev) => {
       return { ...prev, [name]: e.target.value };
     });
   };
-
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google User:", user);
+      const newUserDetails = {
+        isLogggedIn: true,
+        ...user.email,...user.displayName,...user.accessToken      };
+      updateUserDetails(newUserDetails);
+      history("/");
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginCred(loginDetails)
+    signUpCred(SignInDetails)
       .then((response) => {
+        console.log("respomse", response)
         if (response.status == 200) {
+          const newUserDetails = {
+            isLogggedIn: true,
+            ...response.data,
+          };
+          updateUserDetails(newUserDetails);
           history("/");
         }
         return <Navigate to="/landing" />;
@@ -87,9 +109,13 @@ function SignIn() {
           </div>
 
           <button type="submit" className="btn">
-            SignIn
+            SignUp
           </button>
-          <div className="inward-border">
+          <div
+            className="inward-border"
+            style={{ cursor: "pointer" }}
+            onClick={handleGoogleLogin}
+          >
             <img
               src={googleIcon}
               width={18}
@@ -99,9 +125,9 @@ function SignIn() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Don't have an account?{" "}
-            <Link to="/signUp" style={{ color: "gray" }}>
-              SignUp
+            Already have an account?{" "}
+            <Link to="/signIn" style={{ color: "gray" }}>
+              SignIn
             </Link>
           </div>
         </div>
