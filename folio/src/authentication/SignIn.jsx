@@ -28,8 +28,7 @@ function SignIn() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...response.data,
-      };
+        ...user.email,...user.displayName,...user.accessToken      };
       updateUserDetails(newUserDetails);
       history("/");
     } catch (error) {
