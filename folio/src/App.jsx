@@ -4,18 +4,21 @@ import SignIn from "./authentication/SignIn";
 import Landing from "./pages/landing/landing";
 import Portfolio from "./pages/portfolio/portfolio";
 import Account from "./pages/account";
+import { useGlobalContext } from "./context/GlobalContext";
 
 function App() {
+  const { isLogggedIn } = useGlobalContext();
+  console.log("isLogggedIn",isLogggedIn)
 
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signIn" element={<SignUp />} />
-          <Route path="/signUp" element={<SignIn />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/account" element={<Account />} />
+        {isLogggedIn && <Route path="/" element={<Landing />} />}
+        {!isLogggedIn && <Route path="/signIn" element={<SignUp />} />}
+        {!isLogggedIn && <Route path="/signUp" element={<SignIn />} />}
+        {isLogggedIn && <Route path="/portfolio" element={<Portfolio />} />}
+        {isLogggedIn &&   <Route path="/account" element={<Account />} />}
         </Routes>
       </BrowserRouter>
     </div>

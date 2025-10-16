@@ -4,8 +4,10 @@ import { useState } from "react";
 import { signUpCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
+import { useGlobalContext } from "../context/GlobalContext";
 
 function SignIn() {
+  const { updateUserDetails } = useGlobalContext();
   const [SignInDetails, setSignInDetails] = useState({
     username: "reshma2001d",
     email: "reshma2001d@gmail.com",
@@ -24,6 +26,11 @@ function SignIn() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log("Google User:", user);
+      const newUserDetails = {
+        isLogggedIn: true,
+        ...response.data,
+      };
+      updateUserDetails(newUserDetails);
       history("/");
     } catch (error) {
       console.error("Google login error:", error);
@@ -35,6 +42,11 @@ function SignIn() {
       .then((response) => {
         console.log("respomse", response)
         if (response.status == 200) {
+          const newUserDetails = {
+            isLogggedIn: true,
+            ...response.data,
+          };
+          updateUserDetails(newUserDetails);
           history("/");
         }
         return <Navigate to="/landing" />;

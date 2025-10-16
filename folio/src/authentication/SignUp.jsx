@@ -3,10 +3,11 @@ import googleIcon from "../assets/google.svg";
 import { useState } from "react";
 import { loginCred } from "../apis/auth";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
-
 import { Navigate, useNavigate, Link } from "react-router-dom";
+import { useGlobalContext } from "../context/GlobalContext";
 
 function SignUp() {
+  const { updateUserDetails } = useGlobalContext();
   const [loginDetails, setLoginDetails] = useState({
     email: "reshma2001d@gmail.com",
     password: "reshma@1412",
@@ -24,6 +25,11 @@ function SignUp() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log("Google User:", user);
+      const newUserDetails = {
+        isLogggedIn: true,
+        ...response.data,
+      };
+      updateUserDetails(newUserDetails);
       history("/"); 
     } catch (error) {
       console.error("Google login error:", error);
@@ -36,6 +42,11 @@ function SignUp() {
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
+          const newUserDetails = {
+            isLogggedIn: true,
+            ...response.data,
+          };
+          updateUserDetails(newUserDetails);
           history("/");
         }
         return <Navigate to="/" />;

@@ -49,6 +49,6 @@ import {
       }
     } catch (error) {
       console.error(`Error fetching user data:${error}`);
-      res.status(401).json({ message: "Invalid credentials",userRecord});
+      res.status(401).json({ message: "Invalid credentials"});
     }
   }
