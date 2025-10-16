@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { HomeOutlined, UserOutlined, AuditOutlined, SettingOutlined, RocketOutlined, ExperimentOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ collapsed }) => {
   const navigate = useNavigate();
@@ -37,7 +36,6 @@ const Navbar = ({ collapsed }) => {
         { key: "account",   icon: <UserOutlined />,       label: "Account" },
       ]}
 
-      onClick={(item) => navigate(item.key)}
     />
   );
 };
