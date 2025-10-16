@@ -68,7 +68,7 @@ function Landing() {
                                  marginTop: "20px" }}>
                         <Button style={{ marginRight: "40px" }} 
                                 onClick={() => isLogggedIn?navigate("/portfolio"):navigate("/signIn")}>
-                                Start Building <ArrowRightOutlined />
+                                {isLogggedIn?"Start Building": "Sign In First"} <ArrowRightOutlined />
                          </Button>
                     </div>
                 </div>
