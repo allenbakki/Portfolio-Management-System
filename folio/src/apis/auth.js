@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5004/fir-auth-8e22b/us-central1/api/";
+// const BASE_URL = "http://localhost:5004/folio-6be7b/us-central1/api/";
+const BASE_URL = "http://localhost:3000/";
+
 
 const loginCred = async (loginDetail) => {
   try {

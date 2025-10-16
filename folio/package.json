@@ -16,6 +16,7 @@
     "@mui/material": "^7.3.2",
     "antd": "^5.27.4",
     "axios": "^1.12.2",
+    "cors": "^2.8.5",
     "firebase": "^12.4.0",
     "framer-motion": "^12.23.16",
     "react": "^19.1.1",
