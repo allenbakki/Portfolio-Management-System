@@ -5,6 +5,7 @@ import { Button, Layout } from "antd";
 import Navbar from "../../components/navbar"
 import './landing.css';
 import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../context/GlobalContext";
 
 
 const { Sider, Content } = Layout;
@@ -12,6 +13,8 @@ const { Sider, Content } = Layout;
 function Landing() {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
+  const { isLogggedIn } = useGlobalContext();
+
 
   return (
     <Layout style={{height: "100vh", 
@@ -64,7 +67,7 @@ function Landing() {
                                  width: "100%", 
                                  marginTop: "20px" }}>
                         <Button style={{ marginRight: "40px" }} 
-                                onClick={() => navigate("/portfolio")}>
+                                onClick={() => isLogggedIn?navigate("/portfolio"):navigate("/signIn")}>
                                 Start Building <ArrowRightOutlined />
                          </Button>
                     </div>
