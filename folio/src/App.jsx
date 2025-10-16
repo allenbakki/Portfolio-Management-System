@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./authentication/SignUp";
 import SignIn from "./authentication/SignIn";
-import Landing from "./pages/landing";
+import Landing from "./pages/landing/landing";
+import Portfolio from "./pages/portfolio/portfolio";
 import Account from "./pages/account";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/account" element={<Account />} />
         </Routes>
       </BrowserRouter>

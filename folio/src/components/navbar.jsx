@@ -13,6 +13,9 @@ const Navbar = ({ collapsed }) => {
       case "account":
         navigate("/account");
         break;
+      case "portfolio":
+        navigate("/portfolio");
+        break;
       default:
         break;
     }
@@ -32,6 +35,7 @@ const Navbar = ({ collapsed }) => {
         { key: "settings",  icon: <SettingOutlined />,    label: "Settings" },
         { key: "account",   icon: <UserOutlined />,       label: "Account" },
       ]}
+
     />
   );
 };

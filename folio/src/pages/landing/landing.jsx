@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { GiButterfly } from 'react-icons/gi';
 import { LeftOutlined, RightOutlined, ArrowRightOutlined} from "@ant-design/icons";
 import { Button, Layout } from "antd";
-import Navbar from "../components/navbar"
+import Navbar from "../../components/navbar"
 import './landing.css';
+import { useNavigate } from "react-router-dom";
+
 
 const { Sider, Content } = Layout;
 
 function Landing() {
   const [collapsed, setCollapsed] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <Layout style={{height: "100vh", 
@@ -60,9 +63,10 @@ function Landing() {
                                  justifyContent: "flex-end", 
                                  width: "100%", 
                                  marginTop: "20px" }}>
-                        <Button style={{marginRight: "40px"}}>
-                            Start Building <ArrowRightOutlined />
-                        </Button>
+                        <Button style={{ marginRight: "40px" }} 
+                                onClick={() => navigate("/portfolio")}>
+                                Start Building <ArrowRightOutlined />
+                         </Button>
                     </div>
                 </div>
                 <div style={{flex: 1.75, 
