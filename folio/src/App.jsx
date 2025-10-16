@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./authentication/SignUp";
 import SignIn from "./authentication/SignIn";
-import Landing from "./pages/landing";
-import { useGlobalContext } from "./context/GlobalContext";
-
+import Landing from "./pages/landing/landing";
+import Portfolio from "./pages/portfolio/portfolio";
+import Account from "./pages/account";
 
 function App() {
   const { isLogggedIn } = useGlobalContext();
@@ -13,8 +13,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
-          {!isLogggedIn && <Route path="/signIn" element={<SignUp />} />}
-          {!isLogggedIn && <Route path="/signUp" element={<SignIn />} />}
+          <Route path="/signIn" element={<SignUp />} />
+          <Route path="/signUp" element={<SignIn />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </BrowserRouter>
     </div>
