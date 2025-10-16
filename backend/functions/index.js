@@ -6,7 +6,7 @@ import logger from "firebase-functions/logger";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 // Root route
@@ -19,4 +19,6 @@ app.get("/hello", (req, res) => {
 app.use("/", mainRoute);
 
 // Export function
-export const api = onRequest(app);
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+// export const api = onRequest(app);
