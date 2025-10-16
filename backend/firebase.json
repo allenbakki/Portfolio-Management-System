@@ -13,8 +13,11 @@
       }
     ]
   },
+  "functions": {
+    "source": "functions"
+  },
   "firestore": {
-    "database": "(default)",
+    "database": "folio-6be7b",
     "location": "us-central1",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
@@ -26,10 +29,16 @@
     "firestore": {
       "port": 8080
     },
+    "functions": {
+      "port": 5004
+    },
     "ui": {
       "enabled": true,
       "port": 4000
     },
-    "singleProjectMode": true
+    "singleProjectMode": false,
+    "hosting": {
+      "port": 5006
+    }
   }
 }

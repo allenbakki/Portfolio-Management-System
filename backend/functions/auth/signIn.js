@@ -21,15 +21,16 @@ import {
   export async function getSignIn(req, res) {
     const { email, password } = req.body;
     try {
+      
       const userRecord = await auth.getUserByEmail(email);
   
-      console.log(userRecord);
+      console.log("user",userRecord);
       const { uid, displayName, email: userEmail } = userRecord;
       const collectionRef = db.collection("users");
       const userDoc = await collectionRef.doc(uid).get();
       const userData = userDoc.data();
       const passwordref = userData.password || "";
-  
+    console.log("reshma",passwordref)
       if (passwordref === password) {
         // Return user information or custom response
   
@@ -48,6 +49,6 @@ import {
       }
     } catch (error) {
       console.error(`Error fetching user data:${error}`);
-      res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message: "Invalid credentials",userRecord});
     }
   }

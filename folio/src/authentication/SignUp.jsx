@@ -8,7 +8,7 @@ import { Navigate, useNavigate, Link } from "react-router-dom";
 
 function SignUp() {
   const [loginDetails, setLoginDetails] = useState({
-    username: "reshma2001d@gmail.com",
+    email: "reshma2001d@gmail.com",
     password: "reshma@1412",
   });
   const history = useNavigate();
@@ -54,14 +54,14 @@ function SignUp() {
             <div className="subheader2">Please signup to continue</div>
           </div>
           <div className="inputContainer">
-            <div>Username</div>
+            <div>Email</div>
             <input
-              type="text"
-              placeholder="Enter Username"
+              type="email"
+              placeholder="Enter Email"
               name="uname"
               required
               className="inputBox"
-              onChange={handleChange("username")}
+              onChange={handleChange("email")}
             />
           </div>
           <div className="inputContainer">
@@ -77,7 +77,7 @@ function SignUp() {
           </div>
 
           <button type="submit" className="btn">
-            SignUp
+            SignIn
           </button>
           <div
             className="inward-border"
@@ -93,9 +93,9 @@ function SignUp() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Already have an account?{" "}
-            <Link to="/signIn" style={{ color: "gray" }}>
-              SignIn
+            Don't have an account?{" "}
+            <Link to="/signUp" style={{ color: "gray" }}>
+              SignUp
             </Link>
           </div>
         </div>

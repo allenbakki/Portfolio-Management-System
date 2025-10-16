@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAZq2nIvWnx-sC7sORSvvwqqeA5R-MJ1_w",
-  authDomain: "expense-tracker-3f69a.firebaseapp.com",
-  projectId: "expense-tracker-3f69a",
-  storageBucket: "expense-tracker-3f69a.firebasestorage.app",
-  messagingSenderId: "280464608828",
-  appId: "1:280464608828:web:5899e2bb2c3036438ebd39",
-  measurementId: "G-66KB0MXMM0"
+  apiKey: "AIzaSyCqSV2gX1frRRo_f88MO5HH_ftbEWOxG4c",
+  authDomain: "folio-6be7b.firebaseapp.com",
+  projectId: "folio-6be7b",
+  storageBucket: "folio-6be7b.firebasestorage.app",
+  messagingSenderId: "320846733668",
+  appId: "1:320846733668:web:798f389f4ef075dd289a71",
+  measurementId: "G-PR7F2J13PY"
 };
 const app = initializeApp(firebaseConfig);
 

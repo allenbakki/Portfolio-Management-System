@@ -1,12 +1,12 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
-import { loginCred } from "../apis/auth";
+import { signUpCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
 
 function SignIn() {
-  const [loginDetails, setLoginDetails] = useState({
+  const [SignInDetails, setSignInDetails] = useState({
     username: "reshma2001d",
     email: "reshma2001d@gmail.com",
     password: "reshma@1412",
@@ -15,7 +15,7 @@ function SignIn() {
   const history = useNavigate();
 
   const handleChange = (name) => (e) => {
-    setLoginDetails((prev) => {
+    setSignInDetails((prev) => {
       return { ...prev, [name]: e.target.value };
     });
   };
@@ -31,8 +31,9 @@ function SignIn() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginCred(loginDetails)
+    signUpCred(SignInDetails)
       .then((response) => {
+        console.log("respomse", response)
         if (response.status == 200) {
           history("/");
         }
@@ -97,7 +98,7 @@ function SignIn() {
           </div>
 
           <button type="submit" className="btn">
-            SignIn
+            SignUp
           </button>
           <div
             className="inward-border"
@@ -113,9 +114,9 @@ function SignIn() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Don't have an account?{" "}
-            <Link to="/signUp" style={{ color: "gray" }}>
-              SignUp
+            Already have an account?{" "}
+            <Link to="/signIn" style={{ color: "gray" }}>
+              SignIn
             </Link>
           </div>
         </div>

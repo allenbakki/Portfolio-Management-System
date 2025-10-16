@@ -1,22 +1,31 @@
 import admin from "firebase-admin";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
 dotenv.config();
 
-import serviceAccount from "./authCredentials.json" assert { type: "json" };
+// Get __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load JSON manually
+const serviceAccount = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "authCredentials.json"), "utf-8")
+);
+
 
 export const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "your-database-url",
-  serviceAccountId: "your-service-account-id",
+  databaseURL: "https://folio-6be7b-default-rtdb.firebaseio.com"
+
 });
 
-const firebaseConfig = {
-  clientEmail: "firebase-client-email",
-  privateKey: "your-private-key",
-};
-const secretKey = process.env.JWT_SECRET_KEY;
-const refreshSecretKey = process.env.REFRESH_SECRET_KEY;
+
+const secretKey = "asfdshkafvbsdkhlabfjawfbuqwerhfiopjweifhsdfjvnwdsawfenfhwxoueifhrwoeirgfqewbdfhwdvfiyegqwfiuqwebfiywenyfdg";
+const refreshSecretKey = "ascfdkwahfvbqoisadmhxfiuwemhfiwrefwrhefywerfyhwerifhwerfg2ywgerfxmqxwehfmxwqeufhowyegxfywfbrwecgfirw";
 
 export const verifyToken = async (token) => {
   return new Promise((resolve, reject) => {
