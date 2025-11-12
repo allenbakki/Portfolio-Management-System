@@ -1,6 +1,6 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signUpCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
@@ -14,6 +14,14 @@ function SignUp() {
     password: "reshma@1412",
     fullname: "reshma dudekula",
   });
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(""), 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const history = useNavigate();
 
   const handleChange = (name) => (e) => {
@@ -28,18 +36,21 @@ function SignUp() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...user.email,...user.displayName,...user.accessToken      };
+        ...user.email,
+        ...user.displayName,
+        ...user.accessToken,
+      };
       updateUserDetails(newUserDetails);
       history("/");
     } catch (error) {
       console.error("Google login error:", error);
+      setError("Google login error:", error);
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     signUpCred(SignInDetails)
       .then((response) => {
-        console.log("respomse", response)
         if (response.status == 200) {
           const newUserDetails = {
             isLogggedIn: true,
@@ -47,16 +58,25 @@ function SignUp() {
           };
           updateUserDetails(newUserDetails);
           history("/");
+          return <Navigate to="/landing" />;
+        } else {
+          setError(response);
         }
-        return <Navigate to="/landing" />;
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
+        setError("*Invalid Credentials:",error);
       });
   };
 
   return (
     <div className="backgroundContainer">
+      {error && (
+        <div key={Date.now()} className="errorPopup">
+          {error}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
         <div className="container">
           <div className="header">

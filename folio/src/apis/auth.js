@@ -11,7 +11,7 @@ const loginCred = async (loginDetail) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return "Invalid Credentials";
+    return error;
   }
 };
 

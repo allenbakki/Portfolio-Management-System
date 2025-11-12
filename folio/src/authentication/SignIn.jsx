@@ -1,6 +1,6 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { loginCred } from "../apis/auth";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
 import { Navigate, useNavigate, Link } from "react-router-dom";
@@ -13,7 +13,15 @@ function SignIn() {
     password: "reshma@1412",
   });
   const history = useNavigate();
+  const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(""), 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+  
   const handleChange = (name) => (e) => {
     setLoginDetails((prev) => {
       return { ...prev, [name]: e.target.value };
@@ -27,12 +35,15 @@ function SignIn() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...user.email,...user.displayName,...user.accessToken
+        ...user.email,
+        ...user.displayName,
+        ...user.accessToken,
       };
       updateUserDetails(newUserDetails);
-      history("/"); 
+      history("/");
     } catch (error) {
       console.error("Google login error:", error);
+      setError("Google login error:", error);
     }
   };
 
@@ -48,70 +59,77 @@ function SignIn() {
           };
           updateUserDetails(newUserDetails);
           history("/");
+          return <Navigate to="/" />;
+        } else {
+          setError("*Invalid Credentials");
         }
-        return <Navigate to="/" />;
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
+        setError("*Invalid Credentials:",error);
       });
   };
 
   return (
     <div className="backgroundContainer">
-      <form onSubmit={handleSubmit}>
-        <div className="container">
-          <div className="header">
-            <div className="subheader1">Hello!</div>
-            <div className="subheader2">Please signup to continue</div>
-          </div>
-          <div className="inputContainer">
-            <div>Email</div>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              name="uname"
-              required
-              className="inputBox"
-              onChange={handleChange("email")}
-            />
-          </div>
-          <div className="inputContainer">
-            <div>Password</div>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              name="upassword"
-              required
-              className="inputBox"
-              onChange={handleChange("password")}
-            />
-          </div>
+       
+       {error && <div key={Date.now()} className="errorPopup">{error}</div>}
+     
+          <form onSubmit={handleSubmit}>
+            <div className="container">
+              <div className="header">
+                <div className="subheader1">Hello!</div>
+                <div className="subheader2">Please signup to continue</div>
+              </div>
+              <div className="inputContainer">
+                <div>Email</div>
+                <input
+                  type="email"
+                  placeholder="Enter Email"
+                  name="uname"
+                  required
+                  className="inputBox"
+                  onChange={handleChange("email")}
+                />
+              </div>
+              <div className="inputContainer">
+                <div>Password</div>
+                <input
+                  type="password"
+                  placeholder="Enter Password"
+                  name="upassword"
+                  required
+                  className="inputBox"
+                  onChange={handleChange("password")}
+                />
+              </div>
 
-          <button type="submit" className="btn">
-            SignIn
-          </button>
-          <div
-            className="inward-border"
-            style={{ cursor: "pointer" }}
-            onClick={handleGoogleLogin}
-          >
-            <img
-              src={googleIcon}
-              width={18}
-              height={18}
-              style={{ marginTop: 3 }}
-            />{" "}
-            Continue with Google
-          </div>
-          <div className="textCenter">
-            Don't have an account?{" "}
-            <Link to="/signUp" style={{ color: "gray" }}>
-              SignUp
-            </Link>
-          </div>
+              <button type="submit" className="btn">
+                SignIn
+              </button>
+              <div
+                className="inward-border"
+                style={{ cursor: "pointer" }}
+                onClick={handleGoogleLogin}
+              >
+                <img
+                  src={googleIcon}
+                  width={18}
+                  height={18}
+                  style={{ marginTop: 3 }}
+                />{" "}
+                Continue with Google
+              </div>
+              <div className="textCenter">
+                Don't have an account?{" "}
+                <Link to="/signUp" style={{ color: "gray" }}>
+                  SignUp
+                </Link>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+     
   );
 }
 
