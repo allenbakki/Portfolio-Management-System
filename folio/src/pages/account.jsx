@@ -32,7 +32,7 @@ function Account() {
 
         <div className="account-container">
             <div className="account-header">
-            <Avatar size={80} src={displayImage || "/images/profile-placeholder.png"}/>
+            <Avatar size={80} src={displayImage || "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}/>
             <div className="account-user-info">
                 <h1>{displayName || "User"}</h1>
                 <p>{email || "email@example.com"}</p>

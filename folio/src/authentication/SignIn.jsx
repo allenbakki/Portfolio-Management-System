@@ -27,8 +27,13 @@ function SignIn() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...user.email,...user.displayName,...user.accessToken
+        email: user.email,
+        displayName: user.displayName,
+        displayImage: user.photoURL || "/images/profile-placeholder.png",
+        createDate: new Date(+user.reloadUserInfo.createdAt).toLocaleDateString() || "",
+        accessToken: user.accessToken || "",
       };
+      console.log(newUserDetails)
       updateUserDetails(newUserDetails);
       history("/"); 
     } catch (error) {
