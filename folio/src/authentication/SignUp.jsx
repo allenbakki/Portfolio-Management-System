@@ -44,13 +44,13 @@ function SignUp() {
       history("/");
     } catch (error) {
       console.error("Google login error:", error);
+      setError("Google login error:", error);
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     signUpCred(SignInDetails)
       .then((response) => {
-        console.log("respomse", response);
         if (response.status == 200) {
           const newUserDetails = {
             isLogggedIn: true,
@@ -60,12 +60,12 @@ function SignUp() {
           history("/");
           return <Navigate to="/landing" />;
         } else {
-          setError("*Invalid Credentials");
+          setError(response);
         }
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
-        setError("*Invalid Credentials");
+        setError("*Invalid Credentials:",error);
       });
   };
 

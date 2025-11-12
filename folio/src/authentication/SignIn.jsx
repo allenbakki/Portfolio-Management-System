@@ -43,6 +43,7 @@ function SignIn() {
       history("/");
     } catch (error) {
       console.error("Google login error:", error);
+      setError("Google login error:", error);
     }
   };
 
@@ -65,7 +66,7 @@ function SignIn() {
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
-        setError("*Invalid Credentials");
+        setError("*Invalid Credentials:",error);
       });
   };
 
