@@ -67,10 +67,77 @@
 
 .backgroundContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(255,255,255,0.1)), url('/Users/reshma/Downloads/Portfolio-Management-System/folio/src/assets/istockphoto-1433055146-612x612.jpg') center/cover no-repeat;
   height: calc(100vh - 0px);
   width: 100vw;
 }
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ffe5e5, #fff0f0);
+  border-left: 4px solid #e03131;
+  color: #b02a37;
+  padding: 14px 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.05);
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  animation: fadeIn 0.3s ease-in-out;
+  
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.errorPopup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fdecea;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideDown 0.3s ease, fadeOut 0.5s ease 3s forwards;
+}
+
+.errorPopup::before {
+  content: "⚠️";
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+
