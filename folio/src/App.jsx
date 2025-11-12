@@ -6,6 +6,7 @@ import Landing from "./pages/landing/landing";
 import Portfolio from "./pages/portfolio/portfolio";
 import Account from "./pages/account";
 import { useGlobalContext } from "./context/GlobalContext";
+import LaunchPad from "./pages/launchPad/launchPad";
 
 function App() {
   const { isLogggedIn } = useGlobalContext();
@@ -19,6 +20,7 @@ function App() {
         {!isLogggedIn && <Route path="/signUp" element={<SignUp />} />}
         {isLogggedIn && <Route path="/portfolio" element={<Portfolio />} />}
         {isLogggedIn &&   <Route path="/account" element={<Account />} />}
+        {isLogggedIn && <Route path="/launchpad" element={<LaunchPad/>}/>}
         <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
