@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Navbar from "../../components/navbar";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { GiButterfly } from "react-icons/gi";
 import { Button, Layout } from "antd";
 import { Space, Table, Tag } from 'antd';
+import './launchPad.css';
 
 const style = { background: '#0092ff', padding: '8px   ',height:250,border:"1px solid white", borderRadius:6 };
 
@@ -10,7 +12,7 @@ const { Sider, Content } = Layout;
 
 const columns = [
     {
-      title: 'Template',
+      title: 'Portfolio',
       dataIndex: 'name',
       key: 'name',
       render: text => <div>{text}</div>,
@@ -48,7 +50,7 @@ const columns = [
       ),
     },
     {
-      title: 'Action',
+      title: 'Actions',
       key: 'actions',
       render: (_, {actions}) => (
         <>
@@ -73,21 +75,21 @@ const columns = [
   const data = [
     {
       key: '1',
-      name: 'CleanSlate',
+      name: 'Portfolio 1',
       Link: 'https://www.youtube.com',
       tags: ['active'],
       actions:['delete'],
     },
     {
       key: '2',
-      name: 'VibrantVision',
+      name: 'Portfolio 2',
       Link: 'https://www.youtube.com',
       tags: ['inactive'],
       actions:['delete','activate'],
     },
     {
       key: '3',
-      name: 'ProFile',
+      name: 'Portfolio 3',
       Link: 'https://www.youtube.com',
       tags: ['active'],
       actions:['delete'],
@@ -121,7 +123,10 @@ function LaunchPad() {
         <Navbar collapsed={collapsed} />
       </Sider>
 
-      <Content style={{ height: "100%" }}>
+      <Content className="launchpad-content" style={{ height: "100%" }}>
+        <div className="folio-logo-div">
+            <h2 className="folio-logo"><GiButterfly /> Folio</h2>
+        </div>
         <div style={{ display: "flex", height: "100%" }}>
           <div
             style={{
@@ -132,7 +137,7 @@ function LaunchPad() {
             }}
           >
             <h2 style={{ fontWeight: "bold", paddingBottom: "40px" }}>
-              Portfolios launched
+              Launch Pad
             </h2>
             <Table columns={columns} dataSource={data} />
             
