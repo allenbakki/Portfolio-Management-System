@@ -1,25 +1,26 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
-import { loginCred } from "../apis/auth";
-import { auth, provider, signInWithPopup } from "../apis/firebase";
+import { signUpCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
+import { auth, provider, signInWithPopup } from "../apis/firebase";
 import { useGlobalContext } from "../context/GlobalContext";
 
 function SignUp() {
   const { updateUserDetails } = useGlobalContext();
-  const [loginDetails, setLoginDetails] = useState({
+  const [SignInDetails, setSignInDetails] = useState({
+    username: "reshma2001d",
     email: "reshma2001d@gmail.com",
     password: "reshma@1412",
+    fullname: "reshma dudekula",
   });
   const history = useNavigate();
 
   const handleChange = (name) => (e) => {
-    setLoginDetails((prev) => {
+    setSignInDetails((prev) => {
       return { ...prev, [name]: e.target.value };
     });
   };
-
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -27,20 +28,18 @@ function SignUp() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...user.email,...user.displayName,...user.accessToken
-      };
+        ...user.email,...user.displayName,...user.accessToken      };
       updateUserDetails(newUserDetails);
-      history("/"); 
+      history("/");
     } catch (error) {
       console.error("Google login error:", error);
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginCred(loginDetails)
+    signUpCred(SignInDetails)
       .then((response) => {
-        console.log(response);
+        console.log("respomse", response)
         if (response.status == 200) {
           const newUserDetails = {
             isLogggedIn: true,
@@ -49,7 +48,7 @@ function SignUp() {
           updateUserDetails(newUserDetails);
           history("/");
         }
-        return <Navigate to="/" />;
+        return <Navigate to="/landing" />;
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
@@ -61,18 +60,40 @@ function SignUp() {
       <form onSubmit={handleSubmit}>
         <div className="container">
           <div className="header">
-            <div className="subheader1">Hello!</div>
-            <div className="subheader2">Please signup to continue</div>
+            <div className="subheader1">Welcome Back!</div>
+            <div className="subheader2">Please signIn to continue</div>
+          </div>
+          <div className="inputContainer">
+            <div>Name</div>
+            <input
+              type="text"
+              placeholder="Enter Full Name"
+              name="uFullName"
+              required
+              className="inputBox"
+              onChange={handleChange("fullname")}
+            />
           </div>
           <div className="inputContainer">
             <div>Email</div>
             <input
               type="email"
               placeholder="Enter Email"
-              name="uname"
+              name="upassword"
               required
               className="inputBox"
               onChange={handleChange("email")}
+            />
+          </div>
+          <div className="inputContainer">
+            <div>Username</div>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              name="upassword"
+              required
+              className="inputBox"
+              onChange={handleChange("username")}
             />
           </div>
           <div className="inputContainer">
@@ -88,7 +109,7 @@ function SignUp() {
           </div>
 
           <button type="submit" className="btn">
-            SignIn
+            SignUp
           </button>
           <div
             className="inward-border"
@@ -104,9 +125,9 @@ function SignUp() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Don't have an account?{" "}
-            <Link to="/signUp" style={{ color: "gray" }}>
-              SignUp
+            Already have an account?{" "}
+            <Link to="/signIn" style={{ color: "gray" }}>
+              SignIn
             </Link>
           </div>
         </div>

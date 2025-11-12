@@ -15,8 +15,8 @@ function App() {
       <BrowserRouter>
         <Routes>
          <Route path="/" element={<Landing />} />
-        {!isLogggedIn && <Route path="/signIn" element={<SignUp />} />}
-        {!isLogggedIn && <Route path="/signUp" element={<SignIn />} />}
+        {!isLogggedIn && <Route path="/signIn" element={<SignIn />} />}
+        {!isLogggedIn && <Route path="/signUp" element={<SignUp />} />}
         {isLogggedIn && <Route path="/portfolio" element={<Portfolio />} />}
         {isLogggedIn &&   <Route path="/account" element={<Account />} />}
         <Route path="/*" element={<Navigate to="/" />} />

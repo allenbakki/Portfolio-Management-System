@@ -1,26 +1,25 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState } from "react";
-import { signUpCred } from "../apis/auth";
-import { Navigate, useNavigate, Link } from "react-router-dom";
+import { loginCred } from "../apis/auth";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
 
 function SignIn() {
   const { updateUserDetails } = useGlobalContext();
-  const [SignInDetails, setSignInDetails] = useState({
-    username: "reshma2001d",
+  const [loginDetails, setLoginDetails] = useState({
     email: "reshma2001d@gmail.com",
     password: "reshma@1412",
-    fullname: "reshma dudekula",
   });
   const history = useNavigate();
 
   const handleChange = (name) => (e) => {
-    setSignInDetails((prev) => {
+    setLoginDetails((prev) => {
       return { ...prev, [name]: e.target.value };
     });
   };
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -28,18 +27,20 @@ function SignIn() {
       console.log("Google User:", user);
       const newUserDetails = {
         isLogggedIn: true,
-        ...user.email,...user.displayName,...user.accessToken      };
+        ...user.email,...user.displayName,...user.accessToken
+      };
       updateUserDetails(newUserDetails);
-      history("/");
+      history("/"); 
     } catch (error) {
       console.error("Google login error:", error);
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUpCred(SignInDetails)
+    loginCred(loginDetails)
       .then((response) => {
-        console.log("respomse", response)
+        console.log(response);
         if (response.status == 200) {
           const newUserDetails = {
             isLogggedIn: true,
@@ -48,7 +49,7 @@ function SignIn() {
           updateUserDetails(newUserDetails);
           history("/");
         }
-        return <Navigate to="/landing" />;
+        return <Navigate to="/" />;
       })
       .catch((error) => {
         console.error("An error occurred during login:", error);
@@ -60,40 +61,18 @@ function SignIn() {
       <form onSubmit={handleSubmit}>
         <div className="container">
           <div className="header">
-            <div className="subheader1">Welcome Back!</div>
-            <div className="subheader2">Please signIn to continue</div>
-          </div>
-          <div className="inputContainer">
-            <div>Name</div>
-            <input
-              type="text"
-              placeholder="Enter Full Name"
-              name="uFullName"
-              required
-              className="inputBox"
-              onChange={handleChange("fullname")}
-            />
+            <div className="subheader1">Hello!</div>
+            <div className="subheader2">Please signup to continue</div>
           </div>
           <div className="inputContainer">
             <div>Email</div>
             <input
               type="email"
               placeholder="Enter Email"
-              name="upassword"
+              name="uname"
               required
               className="inputBox"
               onChange={handleChange("email")}
-            />
-          </div>
-          <div className="inputContainer">
-            <div>Username</div>
-            <input
-              type="text"
-              placeholder="Enter Username"
-              name="upassword"
-              required
-              className="inputBox"
-              onChange={handleChange("username")}
             />
           </div>
           <div className="inputContainer">
@@ -109,7 +88,7 @@ function SignIn() {
           </div>
 
           <button type="submit" className="btn">
-            SignUp
+            SignIn
           </button>
           <div
             className="inward-border"
@@ -125,9 +104,9 @@ function SignIn() {
             Continue with Google
           </div>
           <div className="textCenter">
-            Already have an account?{" "}
-            <Link to="/signIn" style={{ color: "gray" }}>
-              SignIn
+            Don't have an account?{" "}
+            <Link to="/signUp" style={{ color: "gray" }}>
+              SignUp
             </Link>
           </div>
         </div>
