@@ -10,8 +10,7 @@ const { Sider, Content } = Layout;
 
 function Account() {
   const [collapsed, setCollapsed] = useState(true);
-  const { signOut } = useGlobalContext();
-
+  const { signOut, displayName, email, displayImage, createDate} = useGlobalContext();
 
   return (
     <Layout style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
@@ -33,10 +32,10 @@ function Account() {
 
         <div className="account-container">
             <div className="account-header">
-            <Avatar size={80} src="/images/profile-placeholder.png" />
+            <Avatar size={80} src={displayImage || "/images/profile-placeholder.png"}/>
             <div className="account-user-info">
-                <h1>Ramez Masad</h1>
-                <p>ramez@example.com</p>
+                <h1>{displayName || "User"}</h1>
+                <p>{email || "email@example.com"}</p>
             </div>
             </div>
 
@@ -48,8 +47,8 @@ function Account() {
 
             <div className="account-section">
             <h3>Account Details</h3>
-            <p><strong>Joined:</strong> October 2025</p>
-            <p><strong>Portfolios:</strong> 1 active</p>
+            <p><strong>Joined:</strong> {createDate || ""} </p>
+            {/* <p><strong>Portfolios:</strong> 1 active</p> */}
             </div>
         </div>
     </Content>

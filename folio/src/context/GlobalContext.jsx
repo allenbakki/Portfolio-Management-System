@@ -4,6 +4,7 @@ const GlobalContext = createContext({
   isLogggedIn: false,
   displayName: "",
   email: "",
+  displayImage: "",
   accessToken: "",
   refreshToken: "",
   signOut: () => {},
@@ -15,6 +16,7 @@ export const GlobalProvider = ({ children }) => {
     isLogggedIn: false,
     displayName: "",
     email: "",
+    createDate: "",
     accessToken: "",
     refreshToken: "",
   });
