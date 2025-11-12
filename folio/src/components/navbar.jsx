@@ -22,6 +22,9 @@ const Navbar = ({ collapsed }) => {
       case "portfolio":
         navigate("/portfolio");
         break;
+      case "launchpad":
+        navigate("/launchpad");
+        break;
       default:
         break;
     }
