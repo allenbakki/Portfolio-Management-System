@@ -1,0 +1,21 @@
+.folio-logo-div {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+  margin-top: 0; 
+}
+
+.folio-logo {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.4rem;
+}
+
+.launchpad-content {
+  background-color: #fff;
+  padding: 50px;
+}
