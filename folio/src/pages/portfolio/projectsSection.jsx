@@ -24,22 +24,59 @@ function ProjectSection({ value = [], onChange }) {
     <Form style={{ textAlign: "right" }} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
       {value.map((proj, index) => (
         <div key={index} style={{ borderRadius: 8, padding: 16, marginBottom: 16 }}>
-          <Form.Item label="Project Title">
+          <Form.Item
+            label="Project Title"
+            name={["projects", index, "title"]}
+            rules={[
+              { required: true },
+              {
+                max: 100,
+                message: "Title must be under 100 characters",
+              },
+            ]}
+          >
             <Input
+              placeholder="e.g., Using Machine Learning for Product Pricing"
               value={proj.title}
               onChange={(e) => handleFieldChange(index, "title", e.target.value)}
             />
           </Form.Item>
-          <Form.Item label="Description">
+
+          <Form.Item
+            label="Description"
+            name={["projects", index, "description"]}
+            rules={[
+              { required: false }, 
+              {
+                max: 500,
+                message: "Project description must be under 500 characters",
+              },
+            ]}
+          >
             <TextArea
               rows={5}
               showCount
               maxLength={500}
+              placeholder="Describe your project and its impact..."
               value={proj.description}
               onChange={(e) => handleFieldChange(index, "description", e.target.value)}
             />
           </Form.Item>
-          <Form.Item label="Link">
+
+          <Form.Item
+            label="Link"
+            name={["projects", index, "link"]}
+            rules={[
+              {
+                type: "url",
+                message: "Please enter a valid URL",
+              },
+              {
+                required: true,
+                message: "Please provide a link to your project",
+              },
+            ]}
+          >
             <Input
               value={proj.link}
               onChange={(e) => handleFieldChange(index, "link", e.target.value)}

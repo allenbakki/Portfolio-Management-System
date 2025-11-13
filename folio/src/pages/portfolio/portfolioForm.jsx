@@ -61,26 +61,89 @@ function PortfolioForm() {
       onSubmitCapture={handleSubmit}
     >
       <h2>General</h2>
-      <Form.Item label="Name">
-        <Input onChange={handleGeneralChange("name")} />
+      <Form.Item
+        label="Name"
+        name="name"
+        rules={[
+          { required: true, message: "Please enter your full name" },
+        ]}
+      >
+        <Input
+          placeholder="e.g., Jane Doe"
+          onChange={handleGeneralChange("name")}
+        />
       </Form.Item>
-      <Form.Item label="Professional Title">
-        <Input onChange={handleGeneralChange("professionalTitle")} />
+
+      <Form.Item
+        label="Professional Title"
+        name="professionalTitle"
+        rules={[
+          { required: true, message: "Please enter your professional title" },
+        ]}
+      >
+        <Input
+          placeholder="e.g., Aerospace Engineer"
+          onChange={handleGeneralChange("professionalTitle")}
+        />
       </Form.Item>
-      <Form.Item label="Email">
-        <Input onChange={handleGeneralChange("email")} />
+
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[
+          { required: true, message: "Please enter your email address" },
+          { type: "email", message: "Please enter a valid email" },
+        ]}
+      >
+        <Input
+          placeholder="e.g., jane.doe@email.com"
+          onChange={handleGeneralChange("email")}
+        />
       </Form.Item>
-      <Form.Item label="Location">
-        <Input onChange={handleGeneralChange("location")} />
+
+      <Form.Item
+        label="Location"
+        name="location"
+        rules={[
+          { required: true, message: "Please enter your location" },
+        ]}
+      >
+        <Input
+          placeholder="e.g., St. Louis, MO"
+          onChange={handleGeneralChange("location")}
+        />
       </Form.Item>
-      <Form.Item label="LinkedIn">
-        <Input onChange={handleGeneralChange("linkedIn")} />
+
+      <Form.Item
+        label="LinkedIn"
+        name="linkedIn"
+        rules={[
+          { message: "Please enter a valid LinkedIn handle" },
+          {
+            pattern: /^[a-zA-Z0-9-]+$/,
+            message: "Only letters, numbers, and hyphens are allowed",
+          },
+        ]}
+      >
+        <Input
+          placeholder="e.g., jane-doe"
+          onChange={handleGeneralChange("linkedIn")}
+        />
       </Form.Item>
-      <Form.Item label="About Me">
+
+      <Form.Item
+        label="About Me"
+        name="aboutMe"
+        rules={[
+          { required: true, message: "Please write a short description about yourself" },
+          { max: 500, message: "About Me section must be under 500 characters" },
+        ]}
+      >
         <TextArea
           rows={10}
           showCount
           maxLength={500}
+          placeholder="Write a short introduction about your background, interests, and career goals..."
           onChange={handleGeneralChange("aboutMe")}
         />
       </Form.Item>
