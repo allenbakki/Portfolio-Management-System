@@ -3,17 +3,16 @@ import axios from "axios";
 // const BASE_URL = "http://localhost:5004/folio-6be7b/us-central1/api/";
 const BASE_URL = "http://localhost:3000/";
 
-const portfolioDetails = async (portfolioDetails) => {
+const portfolioDetails = async (portfolioDetails,accessToken) => {
   try {
-    console.log("Submitting portfolio details:", portfolioDetails);
+    console.log("Submitting portfolio details:", portfolioDetails,"accessToken: ",accessToken);
 
     const response = await axios.post(`${BASE_URL}portfolio`, portfolioDetails, {
       headers: {
-        "Content-Type": "application/json",
+         Authorization: accessToken,
       },
     });
 
-    console.log("Response:", response.data);
     return response.data; 
   } catch (error) {
     console.error("Error submitting portfolio details:", error);
