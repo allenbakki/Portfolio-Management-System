@@ -57,8 +57,17 @@ export default function TemplatePage() {
           minWidth: 0,
         }}
       >
-        <Content style={{ background: "#fff" }}>
-          <Template01 />
+        <Content
+          style={{
+            background: "#fff",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ width: "calc(100vw - 61px)" }}>
+            <Template01 />
+          </div>
         </Content>
       </Layout>
     </>
