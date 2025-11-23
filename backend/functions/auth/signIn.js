@@ -23,8 +23,6 @@ import {
     try {
       
       const userRecord = await auth.getUserByEmail(email);
-  
-      console.log("user",userRecord);
       const { uid, displayName, email: userEmail } = userRecord;
       const collectionRef = db.collection("users");
       const userDoc = await collectionRef.doc(uid).get();

@@ -4,10 +4,11 @@ import WorkExperienceSection from "./workExperienceSection";
 import ProjectSection from "./projectsSection";
 import { useState } from "react";
 import { portfolioDetails } from "../../apis/api";
-
+import {useGlobalContext} from "../../context/GlobalContext"
 const { TextArea } = Input;
 
 function PortfolioForm() {
+  const { accessToken } = useGlobalContext();
   const [PortfolioFormDetails, setPortfolioFormDetails] = useState({
     general: {
       name: "",
@@ -43,7 +44,7 @@ function PortfolioForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    portfolioDetails(PortfolioFormDetails)
+    portfolioDetails(PortfolioFormDetails,accessToken)
       .then((response) => {
         if (response.status === 200) {
           console.log("Submitted successfully");
