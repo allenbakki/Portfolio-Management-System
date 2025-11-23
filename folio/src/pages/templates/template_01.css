@@ -37,7 +37,7 @@
 .folio-nav__link:hover { color: #111; background: var(--folio-surface); }
 
 .folio-shell {
-  max-width: var(--folio-maxw);
+  /* max-width: var(--folio-maxw); */
   margin: 0 auto;
   padding: 40px 32px 96px 40px;
 }

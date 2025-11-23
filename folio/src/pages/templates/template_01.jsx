@@ -77,7 +77,7 @@ export default function Template01({ data = mockData }) {
 
   return (
     <div className="folio-template">
-      <nav className="folio-nav">
+      {/* <nav className="folio-nav">
         <div className="folio-nav__inner">
           <div className="folio-nav__brand">
             <GiButterfly /> Folio
@@ -90,7 +90,7 @@ export default function Template01({ data = mockData }) {
             <a className="folio-nav__link" href="#contact">Contact</a>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       <main className="folio-shell">
         <section className="folio-hero">
