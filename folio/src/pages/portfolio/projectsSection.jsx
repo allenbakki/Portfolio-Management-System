@@ -46,7 +46,7 @@ function ProjectSection({ value = [], onChange }) {
             label="Description"
             name={["projects", index, "description"]}
             rules={[
-              { required: false }, 
+              { required: true }, 
               {
                 max: 500,
                 message: "Project description must be under 500 characters",
