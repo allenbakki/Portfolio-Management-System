@@ -6,6 +6,7 @@ import Landing from "./pages/landing/landing";
 import Portfolio from "./pages/portfolio/portfolio";
 import Account from "./pages/account";
 import TemplatePage from "./pages/templates/templatePage";
+import PublicPortfolio from "./pages/portfolio/publicPortfolio";
 
 import { useGlobalContext } from "./context/GlobalContext";
 import LaunchPad from "./pages/launchPad/launchPad";
@@ -24,6 +25,7 @@ function App() {
         {isLogggedIn &&   <Route path="/account" element={<Account />} />}
         <Route path="/template" element={<TemplatePage />} />
         {isLogggedIn && <Route path="/launchpad" element={<LaunchPad/>}/>}
+        <Route path="/u/:uid" element={<PublicPortfolio />} />
         <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

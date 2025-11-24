@@ -101,3 +101,54 @@ export async function saveUpdatePortfolio(req, res) {
   }
 }
 
+export async function getPublicPortfolio(req, res) {
+  try {
+    const { uid } = req.params;
+
+    if (!uid) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing UID",
+      });
+    }
+
+    console.log("Public portfolio request for uid:", uid);
+
+    const snap = await db
+      .collection("portfolio")
+      .where("userId", "==", uid)
+      .limit(1)
+      .get();
+
+    if (snap.empty) {
+      console.log("No portfolio found for uid:", uid);
+      return res.status(404).json({
+        success: false,
+        message: "Portfolio not found for this user",
+      });
+    }
+
+    const doc = snap.docs[0];
+    const data = doc.data();
+    console.log(`Found portfolio doc: http://localhost:5173/u/${uid}`, data);
+
+    const activeTemplateId = data.activeTemplateId || "template01";
+
+    return res.status(200).json({
+      success: true,
+      activeTemplateId,
+      portfolioData: {
+        general: data.general || {},
+        workExperience: data.workExperience || [],
+        education: data.education || [],
+        projects: data.projects || [],
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching public portfolio:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+}
