@@ -3,75 +3,55 @@ import { Form, Input, Button } from "antd";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
 function EducationSection({ value = [], onChange }) {
-  const addDegree = () => {
+  const addDegree = () =>
     onChange([...value, { degree: "", university: "", duration: "" }]);
-  };
 
-  const removeDegree = (index) => {
-    const updated = value.filter((_, i) => i !== index);
-    onChange(updated);
-  };
+  const removeDegree = (index) =>
+    onChange(value.filter((_, i) => i !== index));
 
-  const handleFieldChange = (index, field, val) => {
+  const updateField = (index, field, val) => {
     const updated = [...value];
     updated[index][field] = val;
     onChange(updated);
   };
 
   return (
-    <Form style={{ textAlign: "right" }} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+    <div style={{ textAlign: "right" }}>
       {value.map((edu, index) => (
-        <div key={index} style={{ borderRadius: 8, padding: 16, marginBottom: 16 }}>
-          <Form.Item
-            label="Degree"
-            name={["education", index, "degree"]}
-            rules={[
-              { required: true, message: "Please enter your degree" },
-              { max: 100, message: "Degree title must be under 100 characters" },
-            ]}
-          >
+        <div
+          key={index}
+          style={{
+            borderRadius: 8,
+            padding: 16,
+            marginBottom: 16,
+          }}
+        >
+          <Form.Item label="Degree">
             <Input
-              placeholder="e.g., Bachelor of Science in Computer Science"
+              placeholder="e.g., B.S. Computer Science"
               value={edu.degree}
-              onChange={(e) => handleFieldChange(index, "degree", e.target.value)}
+              onChange={(e) => updateField(index, "degree", e.target.value)}
             />
           </Form.Item>
 
-          <Form.Item
-            label="University"
-            name={["education", index, "university"]}
-            rules={[
-              { required: true, message: "Please enter the name of your university" },
-              { max: 100, message: "University name must be under 100 characters" },
-            ]}
-          >
+          <Form.Item label="University">
             <Input
               placeholder="e.g., Saint Louis University"
               value={edu.university}
-              onChange={(e) => handleFieldChange(index, "university", e.target.value)}
+              onChange={(e) => updateField(index, "university", e.target.value)}
             />
           </Form.Item>
 
-          <Form.Item
-            label="Duration"
-            name={["education", index, "duration"]}
-            rules={[
-              { required: true, message: "Please specify the duration of your degree program" },
-              {
-                pattern: /^[A-Za-z0-9\s–-]+$/,
-                message: "Use a format such as Aug 2020 – May 2024",
-              },
-            ]}
-          >
+          <Form.Item label="Duration">
             <Input
               placeholder="e.g., Aug 2020 – May 2024"
               value={edu.duration}
-              onChange={(e) => handleFieldChange(index, "duration", e.target.value)}
+              onChange={(e) => updateField(index, "duration", e.target.value)}
             />
           </Form.Item>
 
           <Button
-            style={{ backgroundColor: "#B0B0B0", color: "white" }}
+            danger
             icon={<MinusCircleOutlined />}
             onClick={() => removeDegree(index)}
           >
@@ -81,13 +61,13 @@ function EducationSection({ value = [], onChange }) {
       ))}
 
       <Button
-        style={{ backgroundColor: "#0D47A1", color: "white" }}
+        type="primary"
         icon={<PlusCircleOutlined />}
         onClick={addDegree}
       >
         Add Degree
       </Button>
-    </Form>
+    </div>
   );
 }
 

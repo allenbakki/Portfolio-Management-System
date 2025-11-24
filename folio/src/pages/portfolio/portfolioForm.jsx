@@ -4,13 +4,15 @@ import WorkExperienceSection from "./workExperienceSection";
 import ProjectSection from "./projectsSection";
 import { useState, useEffect } from "react";
 import { portfolioDetails } from "../../apis/api";
-import {useGlobalContext} from "../../context/GlobalContext"
+import { useGlobalContext } from "../../context/GlobalContext";
 import { getPortfolio } from "../../apis/getPortfolio";
 
 const { TextArea } = Input;
 
 function PortfolioForm() {
   const { accessToken } = useGlobalContext();
+  const [form] = Form.useForm();
+
   const [PortfolioFormDetails, setPortfolioFormDetails] = useState({
     general: {
       name: "",
@@ -26,42 +28,83 @@ function PortfolioForm() {
   });
 
   const handleGeneralChange = (field) => (e) => {
+    const value = e.target.value;
     setPortfolioFormDetails((prev) => ({
       ...prev,
-      general: { ...prev.general, [field]: e.target.value },
+      general: { ...prev.general, [field]: value },
     }));
+    form.setFieldsValue({ [field]: value });
   };
 
   const handleWorkChange = (workArray) => {
-    setPortfolioFormDetails((prev) => ({ ...prev, workExperience: workArray }));
+    setPortfolioFormDetails((prev) => ({
+      ...prev,
+      workExperience: workArray,
+    }));
   };
 
   const handleEducationChange = (eduArray) => {
-    setPortfolioFormDetails((prev) => ({ ...prev, education: eduArray }));
+    setPortfolioFormDetails((prev) => ({
+      ...prev,
+      education: eduArray,
+    }));
   };
 
   const handleProjectChange = (projArray) => {
-    setPortfolioFormDetails((prev) => ({ ...prev, projects: projArray }));
+    setPortfolioFormDetails((prev) => ({
+      ...prev,
+      projects: projArray,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    portfolioDetails(PortfolioFormDetails,accessToken)
+
+    const cleaned = {
+      ...PortfolioFormDetails,
+      workExperience: PortfolioFormDetails.workExperience.filter(
+        (w) => w.company || w.title || w.duration || w.description
+      ),
+      education: PortfolioFormDetails.education.filter(
+        (e) => e.degree || e.university || e.duration
+      ),
+      projects: PortfolioFormDetails.projects.filter(
+        (p) => p.title || p.description || p.link
+      ),
+    };
+
+    portfolioDetails(cleaned, accessToken)
       .then((response) => {
         if (response.status === 200) {
           console.log("Submitted successfully");
         }
       })
-      .catch((error) => {
-        console.error("Error submitting:", error);
-      });
+      .catch((error) => console.error("Error submitting:", error));
   };
 
   useEffect(() => {
     async function loadPortfolio() {
       try {
-        const data = await getPortfolio(accessToken);
-        console.log("Portfolio response:", data); 
+        const response = await getPortfolio(accessToken);
+        const p = response?.portfolio;
+
+        if (!p) return;
+
+        setPortfolioFormDetails({
+          general: p.general || {},
+          workExperience: p.workExperience || [],
+          education: p.education || [],
+          projects: p.projects || [],
+        });
+
+        form.setFieldsValue({
+          name: p.general?.name,
+          professionalTitle: p.general?.professionalTitle,
+          email: p.general?.email,
+          aboutMe: p.general?.aboutMe,
+          linkedIn: p.general?.linkedIn,
+          location: p.general?.location,
+        });
 
       } catch (err) {
         console.error("Error loading portfolio:", err);
@@ -69,25 +112,27 @@ function PortfolioForm() {
     }
 
     loadPortfolio();
-  }, []);
-
+  }, [accessToken, form]);
 
   return (
     <Form
+      form={form}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       onSubmitCapture={handleSubmit}
     >
       <h2>General</h2>
+
       <Form.Item
         label="Name"
         name="name"
-        rules={[
-          { required: true, message: "Please enter your full name" },
-        ]}
+        rules={[{ 
+          required: true, 
+          message: "Please enter your full name" 
+        }]}
       >
         <Input
-          placeholder="e.g., Jane Doe"
+          value={PortfolioFormDetails.general.name}
           onChange={handleGeneralChange("name")}
         />
       </Form.Item>
@@ -95,12 +140,10 @@ function PortfolioForm() {
       <Form.Item
         label="Professional Title"
         name="professionalTitle"
-        rules={[
-          { required: true, message: "Please enter your professional title" },
-        ]}
+        rules={[{ required: true, message: "Please enter your professional title" }]}
       >
         <Input
-          placeholder="e.g., Aerospace Engineer"
+          value={PortfolioFormDetails.general.professionalTitle}
           onChange={handleGeneralChange("professionalTitle")}
         />
       </Form.Item>
@@ -114,7 +157,7 @@ function PortfolioForm() {
         ]}
       >
         <Input
-          placeholder="e.g., jane.doe@email.com"
+          value={PortfolioFormDetails.general.email}
           onChange={handleGeneralChange("email")}
         />
       </Form.Item>
@@ -122,12 +165,10 @@ function PortfolioForm() {
       <Form.Item
         label="Location"
         name="location"
-        rules={[
-          { required: true, message: "Please enter your location" },
-        ]}
+        rules={[{ required: true, message: "Please enter your location" }]}
       >
         <Input
-          placeholder="e.g., St. Louis, MO"
+          value={PortfolioFormDetails.general.location}
           onChange={handleGeneralChange("location")}
         />
       </Form.Item>
@@ -136,15 +177,11 @@ function PortfolioForm() {
         label="LinkedIn"
         name="linkedIn"
         rules={[
-          { required: true, message: "Please enter a valid LinkedIn handle" },
-          {
-            pattern: /^[a-zA-Z0-9-]+$/,
-            message: "Only letters, numbers, and hyphens are allowed",
-          },
+          { required: true, message: "Please enter a valid LinkedIn handle" }
         ]}
       >
         <Input
-          placeholder="e.g., jane-doe"
+          value={PortfolioFormDetails.general.linkedIn}
           onChange={handleGeneralChange("linkedIn")}
         />
       </Form.Item>
@@ -154,14 +191,14 @@ function PortfolioForm() {
         name="aboutMe"
         rules={[
           { required: true, message: "Please write a short description about yourself" },
-          { max: 500, message: "About Me section must be under 500 characters" },
+          { max: 500, message: "About Me must be under 500 characters" },
         ]}
       >
         <TextArea
           rows={10}
           showCount
           maxLength={500}
-          placeholder="Write a short introduction about your background, interests, and career goals..."
+          value={PortfolioFormDetails.general.aboutMe}
           onChange={handleGeneralChange("aboutMe")}
         />
       </Form.Item>
@@ -199,10 +236,9 @@ function PortfolioForm() {
             width: "200px",
             color: "white",
             backgroundColor: "green",
-            outline: "none",
           }}
         >
-          Submit
+          Save Portfolio
         </button>
       </div>
     </Form>
