@@ -107,7 +107,7 @@ export default function Projects({
               e.currentTarget.style.boxShadow = "0 3px 15px rgba(0,0,0,0.1)";
             }}
           >
-            <div style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}>
+            <div style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 ,color:'black'}}>
               {item.name}
             </div>
             <div style={{ fontSize: 16, fontStyle: "italic", marginBottom: 12, color: "#555" }}>

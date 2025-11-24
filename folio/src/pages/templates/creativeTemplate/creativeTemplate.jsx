@@ -9,6 +9,7 @@ import Experience from "./experience";
 import Projects from "./projects";
 import Education from "./education";
 const { Sider, Content } = Layout;
+import { useGlobalContext } from "../../../context/GlobalContext";
 
 const SIDER_WIDTH = 200;
 const SIDER_COLLAPSED = 56;
@@ -16,6 +17,7 @@ const SIDER_COLLAPSED = 56;
 export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("about me");
+  const {mode,setToDarkMode}=useGlobalContext();
 
   const renderContent = () => {
     switch (currentTab) {
@@ -27,9 +29,9 @@ export default function CreativeTemplate() {
         return <Skills collapsed={collapsed} />;
       case "Experience":
         return <Experience collapsed={collapsed} />;
-        case "Projects":
+      case "Projects":
         return <Projects collapsed={collapsed} />;
-        case "Education":
+      case "Education":
         return <Education collapsed={collapsed} />;
       default:
         return <AboutMe />;
@@ -52,6 +54,8 @@ export default function CreativeTemplate() {
           height: "100vh",
           background: "#fff",
           zIndex: 100,
+          borderRight: mode ? "1px solid #444" : "1px solid #fff", // <-- border added
+
         }}
       >
         <div
@@ -60,7 +64,7 @@ export default function CreativeTemplate() {
             display: "flex",
             justifyContent: collapsed ? "center" : "flex-end",
             padding: 8,
-            background: "#c2dcff",
+            background: mode?"#001b3d": "#c2dcff",
           }}
         >
           <Button
@@ -74,6 +78,8 @@ export default function CreativeTemplate() {
           collapsed={collapsed}
           flag={false}
           setCurrentTab={setCurrentTab}
+          mode={mode}
+          setToDarkMode={setToDarkMode}
         />
       </Sider>
 
@@ -81,16 +87,17 @@ export default function CreativeTemplate() {
         style={{
           marginLeft: collapsed ? SIDER_COLLAPSED : SIDER_WIDTH,
           minHeight: "100vh",
-          background: "#fff",
+          background: mode?"#001b3d": "#c2dcff",
           minWidth: 0,
         }}
       >
         <Content
           style={{
-            background: "#c2dcff",
+            background: mode?"#001b3d": "#c2dcff",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            color:mode?"white":"black"
           }}
         >
           <div

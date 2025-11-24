@@ -28,14 +28,15 @@ export default function Education({
       description:
         "Completed a professional certification on React, building multiple projects and learning best practices.",
       icon: <ReadOutlined style={{ fontSize: 30, color: "#ff6f61" }} />,
-    },{
-        degree: "Certification: Node Developer",
-        institution: "Coursera",
-        duration: "2020",
-        description:
-          "Completed a professional certification on React, building multiple projects and learning best practices.",
-        icon: <ReadOutlined style={{ fontSize: 30, color: "#ff6f61" }} />,
-      },
+    },
+    {
+      degree: "Certification: Node Developer",
+      institution: "Coursera",
+      duration: "2020",
+      description:
+        "Completed a professional certification on React, building multiple projects and learning best practices.",
+      icon: <ReadOutlined style={{ fontSize: 30, color: "#ff6f61" }} />,
+    },
   ];
 
   const colors = ["#99c5ff", "#ffffff"];
@@ -110,8 +111,8 @@ export default function Education({
               transform: visibleItems[index]
                 ? "translateX(0)"
                 : index % 2 === 0
-                ? "translateX(-50px)"
-                : "translateX(50px)",
+                  ? "translateX(-50px)"
+                  : "translateX(50px)",
               transition: "all 0.6s ease-in-out",
             }}
           >
@@ -144,7 +145,15 @@ export default function Education({
                 {item.icon}
               </div>
 
-              <div style={{ fontSize: 18, fontWeight: "bold" }}>{item.degree}</div>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color:'black',
+                }}
+              >
+                {item.degree}
+              </div>
               <div
                 style={{
                   fontSize: 16,

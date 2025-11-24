@@ -131,7 +131,7 @@ export default function Experience({
               e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
             }}
           >
-            <div style={{ fontSize: 18, fontWeight: "bold" }}>
+            <div style={{ fontSize: 18, fontWeight: "bold" ,color:'black'}}>
               {item.company}
             </div>
             <div
