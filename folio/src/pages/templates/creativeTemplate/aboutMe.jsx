@@ -1,6 +1,7 @@
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 import womenImg from "../creativeTemplate/assests/women.png";
 import { useGlobalContext } from "../../../context/GlobalContext";
+
 export default function AboutMe({ collapsed }) {
   const {portfolio}=useGlobalContext();
 
@@ -62,7 +63,7 @@ export default function AboutMe({ collapsed }) {
             animation: "fadeInUp 1s 0.6s forwards",
           }}
         >
-          {portfolio.general?.aboutMe || "Hi, I'm Reshma a software developer from Hyderabad, India, with over 2 years of experience in software development. I specialize in building scalable and efficient applications, and i enjoy working on challenging projects that help me grow my skills. I am passionate about learning new technologies and constantly improving my craft to deliver high quality solutions."}
+          {portfolio.portfolio.general?.aboutMe || "Hi, I'm Reshma a software developer from Hyderabad, India, with over 2 years of experience in software development. I specialize in building scalable and efficient applications, and i enjoy working on challenging projects that help me grow my skills. I am passionate about learning new technologies and constantly improving my craft to deliver high quality solutions."}
         </div>
 
         {/* Contact Info */}
@@ -117,8 +118,8 @@ export default function AboutMe({ collapsed }) {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         />
 
-        <div style={{ fontWeight: "bold", fontSize: 30 }}>{portfolio.general.name}</div>
-        <div style={{ fontSize: 22 }}>{portfolio.general.professionalTitle}</div>
+        <div style={{ fontWeight: "bold", fontSize: 30 }}>{portfolio.portfolio.general.name}</div>
+        <div style={{ fontSize: 22 }}>{portfolio.portfolio.general.professionalTitle}</div>
       </div>
 
       {/* Animations */}

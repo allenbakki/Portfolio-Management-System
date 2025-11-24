@@ -1,36 +1,41 @@
 import { useEffect, useState } from "react";
-
+import { useGlobalContext } from "../../../context/GlobalContext";
 
 export default function Projects({
   collapsed,
   aboutMe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 }) {
-  const projectItems = [
-    {
-      name: "Portfolio Website",
-      duration: "Jan 2023 - Mar 2023",
-      description:
-        "Developed a personal portfolio website using React and Tailwind CSS. Implemented responsive design, interactive animations, and deployed it using Vercel.",
-    },
-    {
-      name: "E-Commerce App",
-      duration: "Apr 2023 - Jun 2023",
-      description:
-        "Built a full-stack e-commerce application with React, Node.js, and MongoDB. Added authentication, payment integration, and admin dashboard for product management.",
-    },
-    {
-      name: "Blog Platform",
-      duration: "Jul 2023 - Sep 2023",
-      description:
-        "Created a blog platform with dynamic content management. Integrated SEO optimizations and social media sharing functionalities.",
-    },
-    {
-      name: "Task Manager",
-      duration: "Oct 2023 - Nov 2023",
-      description:
-        "Developed a productivity web app to manage tasks and deadlines. Implemented drag-and-drop functionality and interactive UI components.",
-    },
-  ];
+  const { portfolio } = useGlobalContext();
+
+  const projectItems =
+  !portfolio?.projects || portfolio.projects.length === 0
+      ? [
+          {
+            title: "Portfolio Website",
+            link: "Jan 2023 - Mar 2023",
+            description:
+              "Developed a personal portfolio website using React and Tailwind CSS. Implemented responsive design, interactive animations, and deployed it using Vercel.",
+          },
+          {
+            title: "E-Commerce App",
+            link: "Apr 2023 - Jun 2023",
+            description:
+              "Built a full-stack e-commerce application with React, Node.js, and MongoDB. Added authentication, payment integration, and admin dashboard for product management.",
+          },
+          {
+            title: "Blog Platform",
+            link: "Jul 2023 - Sep 2023",
+            description:
+              "Created a blog platform with dynamic content management. Integrated SEO optimizations and social media sharing functionalities.",
+          },
+          {
+            title: "Task Manager",
+            link: "Oct 2023 - Nov 2023",
+            description:
+              "Developed a productivity web app to manage tasks and deadlines. Implemented drag-and-drop functionality and interactive UI components.",
+          },
+        ]
+      : portfolio.projects;
 
   const colors = ["#99c5ff", "#ffffff"]; // original color combo
   const [visibleItems, setVisibleItems] = useState([]);
@@ -60,7 +65,9 @@ export default function Projects({
           marginBottom: 40,
         }}
       >
-        <div style={{ fontFamily: '"Brittany Signature", cursive', fontSize: 50 }}>
+        <div
+          style={{ fontFamily: '"Brittany Signature", cursive', fontSize: 50 }}
+        >
           My
         </div>
         <div style={{ fontSize: 50, fontFamily: "sans-serif" }}>PROJECTS</div>
@@ -73,7 +80,7 @@ export default function Projects({
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           gap: 20,
-          padding:10
+          padding: 10,
         }}
       >
         {projectItems.map((item, index) => (
@@ -107,11 +114,25 @@ export default function Projects({
               e.currentTarget.style.boxShadow = "0 3px 15px rgba(0,0,0,0.1)";
             }}
           >
-            <div style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 ,color:'black'}}>
-              {item.name}
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+                marginBottom: 8,
+                color: "black",
+              }}
+            >
+              {item.title}
             </div>
-            <div style={{ fontSize: 16, fontStyle: "italic", marginBottom: 12, color: "#555" }}>
-              {item.duration}
+            <div
+              style={{
+                fontSize: 16,
+                fontStyle: "italic",
+                marginBottom: 12,
+                color: "#555",
+              }}
+            >
+              {item.link}
             </div>
             <div style={{ fontSize: 16, lineHeight: "1.6em", color: "#333" }}>
               {item.description}

@@ -18,7 +18,7 @@ function DesignLab() {
       try {
         const data = await getPortfolio(accessToken);
         if (data.success) {
-          setPortfolio(data.portfolio);
+          setPortfolio(data);
         }
       } catch (err) {
         console.error(err);

@@ -17,14 +17,13 @@ const SIDER_COLLAPSED = 56;
 export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("about me");
-  const { mode, setToDarkMode,portfolio } = useGlobalContext();
-  console.log(portfolio.general.aboutMe);
+  const { mode, setToDarkMode } = useGlobalContext();
+ 
 
   const renderContent = () => {
-    if (!portfolio?.general) return <div>Loading...</div>;
     switch (currentTab) {
       case "about":
-        return <AboutMe collapsed={collapsed} aboutMe={portfolio.general?.aboutMe}  />;
+        return <AboutMe collapsed={collapsed} />;
       case "Vision":
         return <Vision collapsed={collapsed} />;
       case "Skills":
