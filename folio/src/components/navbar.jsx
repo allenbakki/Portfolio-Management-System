@@ -1,17 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { HomeOutlined, UserOutlined, AuditOutlined, SettingOutlined, RocketOutlined, ExperimentOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  UserOutlined,
+  AuditOutlined,
+  RocketOutlined,
+  ExperimentOutlined,
+  EyeOutlined,
+  UsergroupAddOutlined,
+  FundProjectionScreenOutlined 
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { useGlobalContext } from "../context/GlobalContext";
 
-const Navbar = ({ collapsed }) => {
+const Navbar = ({ collapsed , flag = true ,setCurrentTab}) => {
   const navigate = useNavigate();
   const { isLogggedIn } = useGlobalContext();
+
   const handleMenuClick = (e) => {
-    if(!isLogggedIn){
+    if (!isLogggedIn) {
       navigate("/signIn");
+      return;
     }
-    else{
     switch (e.key) {
       case "home":
         navigate("/");
@@ -31,24 +41,66 @@ const Navbar = ({ collapsed }) => {
       default:
         break;
     }
-  }
+  };
+
+  const handleCreativeMenuClick = (e) => {
+    if (!isLogggedIn) {
+      navigate("/signIn");
+      return;
+    }
+    switch (e.key) {
+      case "About Me":
+        setCurrentTab('about');
+        break;
+     
+      case "Vision":
+        setCurrentTab('Vision');
+        break;
+      case "Skills":
+        setCurrentTab('Skills');;
+        break;
+      case "Experience":
+        setCurrentTab('Experience');;
+        break;
+      case "Projects":
+        setCurrentTab('Projects');;
+        break;
+        case "Education":
+          setCurrentTab('Education');
+          break;
+      default:
+        break;
+    }
   };
 
   return (
     <Menu
-      style={{ height: "100%" }}
+    style={{
+      height: "100%",
+      background: flag ? "white" : "#c2dcff",   
+    }}
       theme="light"
       mode="vertical"
-      onClick={handleMenuClick}
-      items={[
-        { key: "home",      icon: <HomeOutlined />,       label: "Home" },
-        { key: "portfolio", icon: <AuditOutlined />,      label: "Portfolio" },
-        { key: "designlab", icon: <ExperimentOutlined />, label: "Design Lab" },
-        { key: "launchpad", icon: <RocketOutlined />,     label: "Launch Pad" },
-        // { key: "settings",  icon: <SettingOutlined />,    label: "Settings" },
-        { key: "account",   icon: <UserOutlined />,       label: "Account" },
-      ]}
-
+      onClick={flag ? handleMenuClick : handleCreativeMenuClick}  
+      items={
+        flag
+          ? [
+              { key: "home", icon: <HomeOutlined />, label: "Home" },
+              { key: "portfolio", icon: <AuditOutlined />, label: "Portfolio" },
+              { key: "designlab", icon: <ExperimentOutlined />, label: "Design Lab" },
+              { key: "launchpad", icon: <RocketOutlined />, label: "Launch Pad" },
+              { key: "account", icon: <UserOutlined />, label: "Account" },
+            ]
+          : [
+              
+              { key: "About Me", icon: <UserOutlined />, label: "About Me" },
+              { key: "Vision", icon: <EyeOutlined />, label: "Vision" },
+              { key: "Skills", icon: <RocketOutlined />, label: "Skills" },
+              { key: "Experience", icon: <UsergroupAddOutlined />, label: "Experience" },
+              { key: "Projects", icon: <FundProjectionScreenOutlined />, label: "Projects" },
+              {key: "Education", icon: <AuditOutlined />, label: "Education" }
+            ]
+      }
     />
   );
 };
