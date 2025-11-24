@@ -1,7 +1,7 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState, useEffect } from "react";
-import { signUpCred } from "../apis/auth";
+import { signUpCred,googleCred } from "../apis/auth";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
 import { useGlobalContext } from "../context/GlobalContext";
@@ -14,6 +14,7 @@ function SignUp() {
     password: "reshma@1412",
     fullname: "reshma dudekula",
   });
+  
   const [error, setError] = useState("");
   useEffect(() => {
     if (error) {
@@ -33,16 +34,25 @@ function SignUp() {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Google User:", user);
+      
+      const googleLoginDetails={
+        uid:user.uid,
+        email: user.email,
+        displayName: user.displayName,
+      }
+
+      const googleLoginResponse=await googleCred(googleLoginDetails);
+      console.log(googleLoginResponse.data)
+
       const newUserDetails = {
         isLogggedIn: true,
         email: user.email,
         displayName: user.displayName,
         displayImage: user.photoURL || "/images/profile-placeholder.png",
         createDate: new Date(+user.reloadUserInfo.createdAt).toLocaleDateString() || "",
-        accessToken: user.accessToken || "",
+        accessToken: googleLoginResponse.data.accessToken || "",
       };
-      console.log(newUserDetails)
+
       updateUserDetails(newUserDetails);
       history("/");
     } catch (error) {

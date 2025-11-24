@@ -1,7 +1,7 @@
 import "./style.css";
 import googleIcon from "../assets/google.svg";
 import { useState,useEffect } from "react";
-import { loginCred } from "../apis/auth";
+import { loginCred,googleCred } from "../apis/auth";
 import { auth, provider, signInWithPopup } from "../apis/firebase";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
@@ -28,27 +28,36 @@ function SignIn() {
     });
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log("Google User:", user);
-      const newUserDetails = {
-        isLogggedIn: true,
-        email: user.email,
-        displayName: user.displayName,
-        displayImage: user.photoURL || "/images/profile-placeholder.png",
-        createDate: new Date(+user.reloadUserInfo.createdAt).toLocaleDateString() || "",
-        accessToken: user.accessToken || "",
-      };
-      console.log(newUserDetails)
-      updateUserDetails(newUserDetails);
-      history("/");
-    } catch (error) {
-      console.error("Google login error:", error);
-      setError("Google login error:", error);
-    }
-  };
+   const handleGoogleLogin = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        const googleLoginDetails={
+          uid:user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        }
+  
+        const googleLoginResponse=await googleCred(googleLoginDetails);
+        console.log(googleLoginResponse.data)
+  
+        const newUserDetails = {
+          isLogggedIn: true,
+          email: user.email,
+          displayName: user.displayName,
+          displayImage: user.photoURL || "/images/profile-placeholder.png",
+          createDate: new Date(+user.reloadUserInfo.createdAt).toLocaleDateString() || "",
+          accessToken: googleLoginResponse.data.accessToken || "",
+        };
+  
+        updateUserDetails(newUserDetails);
+        history("/");
+      } catch (error) {
+        console.error("Google login error:", error);
+        setError("Google login error:", error);
+      }
+    };
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -53,3 +53,46 @@ import {
       });
     }
   }
+
+
+  
+  export async function googleUserRegister(req, res) {
+    const { email, displayName,uid } = req.body;
+  
+    if (!email || !uid || !displayName) {
+      return res.json({ message: "All fields are required" });
+    }
+  
+    const collectionRef = db.collection("users");
+    try {
+     
+      const accessToken = generateAccessToken(uid);
+      const refreshToken = generateRefreshToken(uid);
+  
+      const userRef = collectionRef.doc(uid);
+  
+      await userRef.set({
+        displayName: displayName,
+        email: email,
+        uid: uid,
+      });
+  
+      res.status(200).json({
+        message: "Registered successfully",
+        status: 200,
+        data: {
+          email,
+          displayName,
+          accessToken,
+          refreshToken,
+        },
+      });
+    } catch (error) {
+      console.error(`Error fetching user data:${error}`);
+      res.status(401).json({
+        message: "Invalid credentials",
+        error: error.message,
+        status: 401,
+      });
+    }
+  }

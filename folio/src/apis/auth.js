@@ -15,6 +15,17 @@ const loginCred = async (loginDetail) => {
   }
 };
 
+export const googleCred = async (googleCredDetail) => {
+  try {
+    const response = await axios.post(`${BASE_URL}googleLogin`, googleCredDetail);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const signUpCred = async (signUpDetails) => {
   try {
     const response = await axios.post(`${BASE_URL}signUp`, signUpDetails);
