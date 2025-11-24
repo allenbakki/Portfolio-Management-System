@@ -54,7 +54,7 @@ function DesignLab() {
           <Card
             hoverable
             style={{ width: "100%", height: "auto", boxShadow: "0 4px 8px rgba(0,0,0,0.1)"}}
-            onClick={() => navigate("/template")}
+            onClick={() => navigate("/creative-template")}
             cover={
               <img
                 src="https://www.proalley.com/blog/content/images/2023/02/GD-Image-2.jpg"

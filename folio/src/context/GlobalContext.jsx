@@ -9,6 +9,8 @@ const GlobalContext = createContext({
   refreshToken: "",
   signOut: () => {},
   updateUserDetails: () => {},
+  mode: false,
+  setToDarkMode:()=>{},
 });
 
 export const GlobalProvider = ({ children }) => {
@@ -20,6 +22,10 @@ export const GlobalProvider = ({ children }) => {
     accessToken: "",
     refreshToken: "",
   });
+  const [mode, setMode] = useState(false);
+  const setToDarkMode = (modeChange) => {
+    setMode(modeChange);
+  };
 
   //this login
   const updateUserDetails = (newUserDetails) => {
@@ -53,7 +59,7 @@ export const GlobalProvider = ({ children }) => {
   }, []);
   return (
     <GlobalContext.Provider
-      value={{ signOut, ...userDetails, updateUserDetails }}
+      value={{ signOut, ...userDetails, updateUserDetails,setToDarkMode ,mode}}
     >
       {children}
     </GlobalContext.Provider>
