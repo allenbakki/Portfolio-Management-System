@@ -5,85 +5,60 @@ import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 const { TextArea } = Input;
 
 function ProjectSection({ value = [], onChange }) {
-  const addProject = () => {
+  const addProject = () =>
     onChange([...value, { title: "", description: "", link: "" }]);
-  };
 
-  const removeProject = (index) => {
-    const updated = value.filter((_, i) => i !== index);
-    onChange(updated);
-  };
+  const removeProject = (index) =>
+    onChange(value.filter((_, i) => i !== index));
 
-  const handleFieldChange = (index, field, val) => {
+  const updateField = (index, field, val) => {
     const updated = [...value];
     updated[index][field] = val;
     onChange(updated);
   };
 
   return (
-    <Form style={{ textAlign: "right" }} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+    <div style={{ textAlign: "right" }}>
       {value.map((proj, index) => (
-        <div key={index} style={{ borderRadius: 8, padding: 16, marginBottom: 16 }}>
-          <Form.Item
-            label="Project Title"
-            name={["projects", index, "title"]}
-            rules={[
-              { required: true },
-              {
-                max: 100,
-                message: "Title must be under 100 characters",
-              },
-            ]}
-          >
+        <div
+          key={index}
+          style={{
+            borderRadius: 8,
+            padding: 16,
+            marginBottom: 16,
+          }}
+        >
+          <Form.Item label="Project Title">
             <Input
-              placeholder="e.g., Using Machine Learning for Product Pricing"
+              placeholder="e.g., Machine Learning for Market Analysis"
               value={proj.title}
-              onChange={(e) => handleFieldChange(index, "title", e.target.value)}
+              onChange={(e) => updateField(index, "title", e.target.value)}
             />
           </Form.Item>
 
-          <Form.Item
-            label="Description"
-            name={["projects", index, "description"]}
-            rules={[
-              { required: true }, 
-              {
-                max: 500,
-                message: "Project description must be under 500 characters",
-              },
-            ]}
-          >
+          <Form.Item label="Description">
             <TextArea
               rows={5}
               showCount
               maxLength={500}
-              placeholder="Describe your project and its impact..."
+              placeholder="Describe your project..."
               value={proj.description}
-              onChange={(e) => handleFieldChange(index, "description", e.target.value)}
+              onChange={(e) =>
+                updateField(index, "description", e.target.value)
+              }
             />
           </Form.Item>
 
-          <Form.Item
-            label="Link"
-            name={["projects", index, "link"]}
-            rules={[
-              {
-                type: "url",
-                message: "Please enter a valid URL",
-              },
-              {
-                required: true,
-                message: "Please provide a link to your project",
-              },
-            ]}
-          >
+          <Form.Item label="Link">
             <Input
+              placeholder="https://github.com"
               value={proj.link}
-              onChange={(e) => handleFieldChange(index, "link", e.target.value)}
+              onChange={(e) => updateField(index, "link", e.target.value)}
             />
           </Form.Item>
+      
           <Button
-            style={{ backgroundColor: "#B0B0B0", color: "white" }}
+            danger
             icon={<MinusCircleOutlined />}
             onClick={() => removeProject(index)}
           >
@@ -93,13 +68,13 @@ function ProjectSection({ value = [], onChange }) {
       ))}
 
       <Button
-        style={{ backgroundColor: "#0D47A1", color: "white" }}
+        type="primary"
         icon={<PlusCircleOutlined />}
         onClick={addProject}
       >
         Add Project
       </Button>
-    </Form>
+    </div>
   );
 }
 

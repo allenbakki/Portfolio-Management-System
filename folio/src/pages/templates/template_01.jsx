@@ -1,6 +1,9 @@
 import React from "react";
 import { GiButterfly } from "react-icons/gi";
 import "./template_01.css";
+import { useEffect } from "react";
+import { getPortfolio } from "../../apis/getPortfolio";
+import { useGlobalContext } from "../../context/GlobalContext";
 
 const mockData = {
   general: {
@@ -69,6 +72,23 @@ const mockData = {
 };
 
 export default function Template01({ data = mockData }) {
+
+  const { accessToken } = useGlobalContext();
+
+  useEffect(() => {
+    async function loadPortfolio() {
+      try {
+        const data = await getPortfolio(accessToken);
+        console.log("Portfolio response:", data); 
+
+      } catch (err) {
+        console.error("Error loading portfolio:", err);
+      }
+    }
+
+    loadPortfolio();
+  }, []);
+
   const g = data.general || {};
   const about = data.bio?.about || "";
   const xp = data.experience || [];
