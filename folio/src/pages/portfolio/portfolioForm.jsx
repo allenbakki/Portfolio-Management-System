@@ -2,9 +2,11 @@ import { Form, Input } from "antd";
 import EducationSection from "./educationSection";
 import WorkExperienceSection from "./workExperienceSection";
 import ProjectSection from "./projectsSection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { portfolioDetails } from "../../apis/api";
 import {useGlobalContext} from "../../context/GlobalContext"
+import { getPortfolio } from "../../apis/getPortfolio";
+
 const { TextArea } = Input;
 
 function PortfolioForm() {
@@ -54,6 +56,21 @@ function PortfolioForm() {
         console.error("Error submitting:", error);
       });
   };
+
+  useEffect(() => {
+    async function loadPortfolio() {
+      try {
+        const data = await getPortfolio(accessToken);
+        console.log("Portfolio response:", data); 
+
+      } catch (err) {
+        console.error("Error loading portfolio:", err);
+      }
+    }
+
+    loadPortfolio();
+  }, []);
+
 
   return (
     <Form
