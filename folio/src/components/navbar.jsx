@@ -22,6 +22,9 @@ const Navbar = ({ collapsed }) => {
       case "portfolio":
         navigate("/portfolio");
         break;
+      case "designlab":
+        navigate("/designlab");
+        break;
       case "launchpad":
         navigate("/launchpad");
         break;
@@ -42,7 +45,7 @@ const Navbar = ({ collapsed }) => {
         { key: "portfolio", icon: <AuditOutlined />,      label: "Portfolio" },
         { key: "designlab", icon: <ExperimentOutlined />, label: "Design Lab" },
         { key: "launchpad", icon: <RocketOutlined />,     label: "Launch Pad" },
-        { key: "settings",  icon: <SettingOutlined />,    label: "Settings" },
+        // { key: "settings",  icon: <SettingOutlined />,    label: "Settings" },
         { key: "account",   icon: <UserOutlined />,       label: "Account" },
       ]}
 

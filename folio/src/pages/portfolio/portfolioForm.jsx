@@ -136,7 +136,7 @@ function PortfolioForm() {
         label="LinkedIn"
         name="linkedIn"
         rules={[
-          { message: "Please enter a valid LinkedIn handle" },
+          { required: true, message: "Please enter a valid LinkedIn handle" },
           {
             pattern: /^[a-zA-Z0-9-]+$/,
             message: "Only letters, numbers, and hyphens are allowed",
