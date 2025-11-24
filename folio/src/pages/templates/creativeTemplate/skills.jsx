@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import womenImg from "./assests/women.png";
 import graphicDesign from "./assests/graphicDesign.png";
 import webDesign from "./assests/webDesign.png";
-import illustration from "./assests/illustration.png";
+import illustration from "./assests/Illustration.png";
 import photography from "./assests/photography.png";
 
 export default function Skills({
