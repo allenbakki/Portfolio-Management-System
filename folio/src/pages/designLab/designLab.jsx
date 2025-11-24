@@ -1,22 +1,40 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { GiButterfly } from "react-icons/gi";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Layout, Card } from "antd";
 import Navbar from "../../components/navbar";
-import './designLab.css'
-
+import "./designLab.css";
+import {useGlobalContext} from "../../context/GlobalContext"
+import { getPortfolio } from "../../apis/getPortfolio";
 
 const { Sider, Content } = Layout;
 
 function DesignLab() {
+  const { accessToken, setPortfolio } = useGlobalContext();
+
+  useEffect(() => {
+    async function loadPortfolio() {
+      try {
+        const data = await getPortfolio(accessToken);
+        if (data.success) {
+          setPortfolio(data.portfolio);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadPortfolio();
+  }, []);
+
+
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
   const imageStyle = {
     width: "100%",
     height: "350px",
-    objectFit: "cover"
+    objectFit: "cover",
   };
 
   return (
@@ -34,12 +52,18 @@ function DesignLab() {
 
       <Content style={{ background: "#ffffff" }}>
         <div className="account-header-top">
-          <h2 className="account-logo"><GiButterfly /> Folio</h2>
+          <h2 className="account-logo">
+            <GiButterfly /> Folio
+          </h2>
         </div>
-        <div style={{ display: "flex", gap: "20px", margin: "40px"}}>
+        <div style={{ display: "flex", gap: "20px", margin: "40px" }}>
           <Card
             hoverable
-            style={{ width: "100%", height: "auto", boxShadow: "0 4px 8px rgba(0,0,0,0.1)"}}
+            style={{
+              width: "100%",
+              height: "auto",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            }}
             onClick={() => navigate("/template")}
             cover={
               <img
@@ -49,11 +73,18 @@ function DesignLab() {
               />
             }
           >
-            <p style={{fontSize: "20px", fontWeight: "bold"}}> Professional </p>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}>
+              {" "}
+              Professional{" "}
+            </p>
           </Card>
           <Card
             hoverable
-            style={{ width: "100%", height: "auto", boxShadow: "0 4px 8px rgba(0,0,0,0.1)"}}
+            style={{
+              width: "100%",
+              height: "auto",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            }}
             onClick={() => navigate("/creative-template")}
             cover={
               <img
@@ -63,10 +94,9 @@ function DesignLab() {
               />
             }
           >
-            <p style={{fontSize: "20px", fontWeight: "bold"}}> Creative </p>
+            <p style={{ fontSize: "20px", fontWeight: "bold" }}> Creative </p>
           </Card>
         </div>
-        
       </Content>
     </Layout>
   );
