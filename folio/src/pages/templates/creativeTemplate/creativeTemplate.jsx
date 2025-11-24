@@ -17,7 +17,8 @@ const SIDER_COLLAPSED = 56;
 export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("about me");
-  const {mode,setToDarkMode}=useGlobalContext();
+  const { mode, setToDarkMode } = useGlobalContext();
+ 
 
   const renderContent = () => {
     switch (currentTab) {
@@ -38,6 +39,29 @@ export default function CreativeTemplate() {
     }
   };
 
+  const handleLaunch = async () => {
+    try {
+      // Step 1: Hit API to fetch user details + generate filled template
+    //   const response = await fetch("http://localhost:5000/api/launch", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ template: "creative-template" }),
+    //   });
+  
+    //   const data = await response.json();
+  
+      // response should give you the generated URL
+      // ex: "https://folio.myapp.com/portfolio/12345"
+  
+      // Step 2: Redirect user to the generated template URL
+      window.open("http://localhost:5173/launch/:launchId", "_blank");
+  
+    } catch (err) {
+      console.error("Launch failed", err);
+    }
+  };
+  
+
   return (
     <>
       <Sider
@@ -55,7 +79,6 @@ export default function CreativeTemplate() {
           background: "#fff",
           zIndex: 100,
           borderRight: mode ? "1px solid #444" : "1px solid #fff", // <-- border added
-
         }}
       >
         <div
@@ -64,7 +87,7 @@ export default function CreativeTemplate() {
             display: "flex",
             justifyContent: collapsed ? "center" : "flex-end",
             padding: 8,
-            background: mode?"#001b3d": "#c2dcff",
+            background: mode ? "#001b3d" : "#c2dcff",
           }}
         >
           <Button
@@ -87,17 +110,42 @@ export default function CreativeTemplate() {
         style={{
           marginLeft: collapsed ? SIDER_COLLAPSED : SIDER_WIDTH,
           minHeight: "100vh",
-          background: mode?"#001b3d": "#c2dcff",
+          background: mode ? "#001b3d" : "#c2dcff",
           minWidth: 0,
+          width: collapsed ? "calc(100vw - 50px)" : "calc(100vw - 200px)",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row-reverse",
+            padding: 10,
+            paddingRight: 30,
+          }}
+        >
+          {" "}
+          <Button
+            type="primary"
+            onClick={() => {
+              handleLaunch() 
+            }}
+            style={{
+              background: "#4CAF50",
+              border: "none",
+              fontSize: 16,
+              padding: "6px 16px",
+            }}
+          >
+            Launch 🚀
+          </Button>
+        </div>
         <Content
           style={{
-            background: mode?"#001b3d": "#c2dcff",
+            background: mode ? "#001b3d" : "#c2dcff",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            color:mode?"white":"black"
+            color: mode ? "white" : "black",
           }}
         >
           <div

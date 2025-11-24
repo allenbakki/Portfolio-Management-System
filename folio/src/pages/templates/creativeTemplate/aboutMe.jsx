@@ -1,11 +1,9 @@
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
-import womenImg from "../creativeTemplate/assests/women.png"
+import womenImg from "../creativeTemplate/assests/women.png";
+import { useGlobalContext } from "../../../context/GlobalContext";
 
-export default function AboutMe({
-  collapsed,
-  aboutMe = "Hi, I’m Reshma, a software developer from Hyderabad, India, with over 2 years of experience in software development. I specialize in building scalable and efficient applications, and I enjoy working on challenging projects that help me grow my skills. I am passionate about learning new technologies and constantly improving my craft to deliver high-quality solutions.",
-
-}) {
+export default function AboutMe({ collapsed }) {
+  const {portfolio}=useGlobalContext();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -65,7 +63,7 @@ export default function AboutMe({
             animation: "fadeInUp 1s 0.6s forwards",
           }}
         >
-          {aboutMe}
+          {portfolio.portfolio.general?.aboutMe || "Hi, I'm Reshma a software developer from Hyderabad, India, with over 2 years of experience in software development. I specialize in building scalable and efficient applications, and i enjoy working on challenging projects that help me grow my skills. I am passionate about learning new technologies and constantly improving my craft to deliver high quality solutions."}
         </div>
 
         {/* Contact Info */}
@@ -103,26 +101,25 @@ export default function AboutMe({
           transition: "transform 0.5s ease",
         }}
       >
-          <img
-            src={womenImg}
-            alt="Profile"
-            style={{
-              border: "2px solid #fffaef",
-              borderRadius: "6px",
-              width: "100%",
-              maxWidth: 600,
-              height: "auto",
-              transition: "transform 0.3s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          />
-        
-        
+        <img
+          src={womenImg}
+          alt="Profile"
+          style={{
+            border: "2px solid #fffaef",
+            borderRadius: "6px",
+            width: "100%",
+            maxWidth: 600,
+            height: "auto",
+            transition: "transform 0.3s",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.transform = "scale(1.05)")
+          }
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        />
 
-
-        <div style={{ fontWeight: "bold", fontSize: 30 }}>Reshma Dudekula</div>
-        <div style={{ fontSize: 22 }}>Software Engineer</div>
+        <div style={{ fontWeight: "bold", fontSize: 30 }}>{portfolio.portfolio.general.name}</div>
+        <div style={{ fontSize: 22 }}>{portfolio.portfolio.general.professionalTitle}</div>
       </div>
 
       {/* Animations */}

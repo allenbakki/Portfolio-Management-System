@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { BookOutlined, LaptopOutlined, ReadOutlined } from "@ant-design/icons";
+import { useGlobalContext } from "../../../context/GlobalContext";
 
 export default function Education({
   aboutMe = "Here’s a summary of my academic journey and milestones.",
 }) {
-  const educationItems = [
+  const {portfolio}=useGlobalContext();
+
+  const educationItems =!portfolio?.education || portfolio.education.length === 0
+  ? [
     {
       degree: "B.Tech in Computer Science",
-      institution: "Osmania University",
+      university: "Osmania University",
       duration: "2015 - 2019",
       description:
         "Focused on software engineering, data structures, and algorithms. Participated in coding competitions and tech workshops.",
@@ -15,7 +19,7 @@ export default function Education({
     },
     {
       degree: "High School Diploma",
-      institution: "St. Ann's High School",
+      university: "St. Ann's High School",
       duration: "2013 - 2015",
       description:
         "Specialized in science and mathematics. Actively participated in science fairs and extracurricular activities.",
@@ -23,7 +27,7 @@ export default function Education({
     },
     {
       degree: "Certification: React Developer",
-      institution: "Coursera",
+      university: "Coursera",
       duration: "2020",
       description:
         "Completed a professional certification on React, building multiple projects and learning best practices.",
@@ -31,13 +35,13 @@ export default function Education({
     },
     {
       degree: "Certification: Node Developer",
-      institution: "Coursera",
+      university: "Coursera",
       duration: "2020",
       description:
         "Completed a professional certification on React, building multiple projects and learning best practices.",
       icon: <ReadOutlined style={{ fontSize: 30, color: "#ff6f61" }} />,
     },
-  ];
+  ]:portfolio.education;
 
   const colors = ["#99c5ff", "#ffffff"];
   const [visibleItems, setVisibleItems] = useState([]);
@@ -162,7 +166,7 @@ export default function Education({
                   color: "#555",
                 }}
               >
-                {item.institution} | {item.duration}
+                {item.university} | {item.duration}
               </div>
               <div style={{ fontSize: 16, lineHeight: "1.5em", color: "#333" }}>
                 {item.description}

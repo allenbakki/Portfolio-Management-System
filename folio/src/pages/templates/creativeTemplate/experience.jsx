@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
+import { useGlobalContext } from "../../../context/GlobalContext";
 
 export default function Experience({
   collapsed,
   aboutMe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 }) {
-  const experienceItems = [
-    {
-      company: "ABC Corp",
-      duration: "Jan 2021 - Dec 2022",
-      description:
-        "Worked on building scalable web applications using React and Node.js. Collaborated with cross-functional teams to deliver high-quality features. Mentored junior developers and improved code quality standards.",
-    },
-    {
-      company: "XYZ Solutions",
-      duration: "Feb 2020 - Dec 2020",
-      description:
-        "Developed mobile-first responsive designs and implemented APIs. Optimized performance and contributed to UI/UX improvements. Participated in agile sprints and code reviews.",
-    },
-    {
-      company: "TechNova",
-      duration: "Jun 2018 - Jan 2020",
-      description:
-        "Built and maintained full-stack applications. Worked on cloud deployments and database management. Coordinated with clients to deliver customized solutions on time.",
-    },
-    {
-      company: "Creative Studio",
-      duration: "Jan 2017 - May 2018",
-      description:
-        "Designed and implemented front-end solutions for creative projects. Focused on responsive design, accessibility, and interactive animations.",
-    },
-  ];
+  const { portfolio } = useGlobalContext();
+
+  console.log(portfolio.workExperience);
+  const experienceItems =
+  !portfolio?.workExperience || portfolio.workExperience.length === 0
+    ? [
+        {
+          company: "ABC Corp",
+          duration: "Jan 2021 - Dec 2022",
+          description:
+            "Worked on building scalable web applications using React and Node.js. Collaborated with cross-functional teams to deliver high-quality features. Mentored junior developers and improved code quality standards.",
+        },
+        {
+          company: "XYZ Solutions",
+          duration: "Feb 2020 - Dec 2020",
+          description:
+            "Developed mobile-first responsive designs and implemented APIs. Optimized performance and contributed to UI/UX improvements. Participated in agile sprints and code reviews.",
+        },
+        {
+          company: "TechNova",
+          duration: "Jun 2018 - Jan 2020",
+          description:
+            "Built and maintained full-stack applications. Worked on cloud deployments and database management. Coordinated with clients to deliver customized solutions on time.",
+        },
+        {
+          company: "Creative Studio",
+          duration: "Jan 2017 - May 2018",
+          description:
+            "Designed and implemented front-end solutions for creative projects. Focused on responsive design, accessibility, and interactive animations.",
+        },
+      ]
+    : portfolio.workExperience; // use the actual data if exists
+
 
   const colors = ["#99c5ff", "#ffffff"]; // original color combo
 
@@ -94,7 +102,7 @@ export default function Experience({
           gap: 20,
           maxHeight: 500,
           overflowY: "auto",
-          padding:10
+          padding: 10,
         }}
       >
         <style>
@@ -115,7 +123,9 @@ export default function Experience({
               borderRadius: 10,
               padding: 20,
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              transform: visibleItems[index] ? "translateY(0)" : "translateY(50px)",
+              transform: visibleItems[index]
+                ? "translateY(0)"
+                : "translateY(50px)",
               opacity: visibleItems[index] ? 1 : 0,
               transition: "all 0.6s ease-in-out",
               cursor: "pointer",
@@ -131,7 +141,7 @@ export default function Experience({
               e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
             }}
           >
-            <div style={{ fontSize: 18, fontWeight: "bold" ,color:'black'}}>
+            <div style={{ fontSize: 18, fontWeight: "bold", color: "black" }}>
               {item.company}
             </div>
             <div
