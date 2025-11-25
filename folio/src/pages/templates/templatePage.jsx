@@ -31,23 +31,37 @@ export default function TemplatePage() {
     if (accessToken) loadPortfolio();
   }, [accessToken]);
 
-  const handleLaunch = async () => {
-    try {
-        const response = await fetch("http://localhost:3000/api/launch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template: "professional-template" }),
-      });
-  
-      const data = await response.json();
+const handleLaunch = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/launch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      },
+      body: JSON.stringify({ template: "professional" }),
+    });
 
-     setProfessionalPortfolioLaunchId(data.professionalLaunchId);
-      window.open(`http://localhost:5173/launch-professional/:${data.professionalLaunchId}`, "_blank");
-  
-    } catch (err) {
-      console.error("Launch failed", err);
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}));
+      console.error("Launch failed:", response.status, errorBody);
+      return;
     }
-  };
+
+    const data = await response.json();
+    console.log("Launch response (professional):", data);
+
+    setProfessionalPortfolioLaunchId(data.professionalLaunchId);
+    window.open(
+      `http://localhost:5173/launch-professional/${data.professionalLaunchId}`,
+      "_blank"
+    );
+  } catch (err) {
+    console.error("Launch failed", err);
+  }
+};
+
+
   
 
   return (

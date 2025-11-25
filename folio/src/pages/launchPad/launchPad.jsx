@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../components/navbar";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { GiButterfly } from "react-icons/gi";
@@ -10,27 +10,113 @@ const { Sider, Content } = Layout;
 
 function LaunchPad() {
   const [collapsed, setCollapsed] = useState(true);
+  const [rows, setRows] = useState([]);
+
   const {
     professionalPortfolioLaunchId,
     creativePortfolioLaunchId,
     setCreativePortfolioLaunchId,
     setProfessionalPortfolioLaunchId,
+    accessToken,
   } = useGlobalContext();
 
+  useEffect(() => {
+    const initial = [];
 
+    if (professionalPortfolioLaunchId) {
+      initial.push({
+        template: "professional",
+        key: "Professional",
+        name: "Professional Portfolio",
+        launchId: professionalPortfolioLaunchId,
+      });
+    }
 
-  const handleClick = async (key) => {
+    if (creativePortfolioLaunchId) {
+      initial.push({
+        template: "creative",
+        key: "Creative",
+        name: "Creative Portfolio",
+        launchId: creativePortfolioLaunchId,
+      });
+    }
+
+    setRows(initial);
+  }, [professionalPortfolioLaunchId, creativePortfolioLaunchId]);
+
+  // 2) on mount, pull any saved links from backend (so it works after refresh)
+  useEffect(() => {
+    if (!accessToken) return;
+
+    (async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/launch-links", {
+          headers: {
+            Authorization: accessToken,
+          },
+        });
+
+        if (!res.ok) {
+          console.error("Failed to load launch links:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        console.log("Launch links from backend:", data);
+
+        if (!data.success || !Array.isArray(data.links)) return;
+
+        const fromServer = data.links.map((link) => ({
+          template: link.template, // "creative" | "professional"
+          key: link.template === "professional" ? "Professional" : "Creative",
+          name:
+            link.template === "professional"
+              ? "Professional Portfolio"
+              : "Creative Portfolio",
+          launchId: link.launchId,
+        }));
+
+        setRows(fromServer);
+
+        data.links.forEach((link) => {
+          if (link.template === "professional") {
+            setProfessionalPortfolioLaunchId(link.launchId);
+          } else if (link.template === "creative") {
+            setCreativePortfolioLaunchId(link.launchId);
+          }
+        });
+      } catch (err) {
+        console.error("Error loading launch links:", err);
+      }
+    })();
+  }, [accessToken, setProfessionalPortfolioLaunchId, setCreativePortfolioLaunchId]);
+
+  const handleClick = async (record) => {
+    const template = record.template; // "creative" | "professional"
+
     try {
-      await fetch("http://localhost:3000/api/delete", {
+      const res = await fetch("http://localhost:3000/api/delete", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template: key }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: accessToken,
+        },
+        body: JSON.stringify({ template }),
       });
 
-      // Update the state to remove the row
-      if (key === "Creative") {
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        console.error("Delete failed:", res.status, body);
+        return;
+      }
+
+      // Remove from table
+      setRows((prev) => prev.filter((row) => row.template !== template));
+
+      // Clear from context
+      if (template === "creative") {
         setCreativePortfolioLaunchId("");
-      } else if (key === "Professional") {
+      } else if (template === "professional") {
         setProfessionalPortfolioLaunchId("");
       }
     } catch (err) {
@@ -38,25 +124,16 @@ function LaunchPad() {
     }
   };
 
-  // Build table data from current state
-  const data = [
-    professionalPortfolioLaunchId
-      ? {
-          key: "Professional",
-          name: "Professional Portfolio",
-          Link: `http://localhost:5173/launch-professional/${professionalPortfolioLaunchId}`,
-          actions: ["delete"],
-        }
-      : null,
-    creativePortfolioLaunchId
-      ? {
-          key: "Creative",
-          name: "Creative Portfolio",
-          Link: `http://localhost:5173/launch/${creativePortfolioLaunchId}`,
-          actions: ["delete"],
-        }
-      : null,
-  ].filter(Boolean);
+  const data = rows.map((row) => ({
+    key: row.key,
+    name: row.name,
+    Link:
+      row.template === "professional"
+        ? `http://localhost:5173/launch-professional/${row.launchId}`
+        : `http://localhost:5173/launch/${row.launchId}`,
+    actions: ["delete"],
+    template: row.template,
+  }));
 
   const columns = [
     {
@@ -83,7 +160,7 @@ function LaunchPad() {
             <Button
               key={action}
               style={{ color: "red", border: "1px solid red" }}
-              onClick={() => handleClick(record.key)}
+              onClick={() => handleClick(record)}
             >
               {action.toUpperCase()}
             </Button>
