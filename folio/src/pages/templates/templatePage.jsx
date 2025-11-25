@@ -3,6 +3,9 @@ import { Layout, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Navbar from "../../components/navbar";
 import Template01 from "./template_01";
+import { useEffect } from "react";
+import { useGlobalContext } from "../../context/GlobalContext";
+import { getPortfolio } from "../../apis/getPortfolio";
 
 const { Sider, Content } = Layout;
 
@@ -11,6 +14,22 @@ const SIDER_COLLAPSED = 56;
 
 export default function TemplatePage() {
   const [collapsed, setCollapsed] = useState(true);
+  const [portfolio, setPortfolio] = useState(null);
+
+  const { accessToken } = useGlobalContext();
+
+  useEffect(() => {
+    async function loadPortfolio() {
+      try {
+        const data = await getPortfolio(accessToken);
+        setPortfolio(data);
+      } catch (err) {
+        console.error("Failed to load portfolio:", err);
+      }
+    }
+
+    if (accessToken) loadPortfolio();
+  }, [accessToken]);
 
   return (
     <>
@@ -66,7 +85,7 @@ export default function TemplatePage() {
           }}
         >
           <div style={{ width: "calc(100vw - 61px)" }}>
-            <Template01 />
+            <Template01 data={portfolio}/>
           </div>
         </Content>
       </Layout>

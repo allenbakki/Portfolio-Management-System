@@ -43,7 +43,7 @@
 }
 
 .folio-hero {
-  display: grid; grid-template-columns: 112px 1fr; gap: 24px; align-items: center;
+  display: grid; gap: 24px; align-items: center;
   margin-bottom: 28px;
 }
 .folio-hero__avatar {
@@ -53,7 +53,7 @@
 }
 .folio-hero__name { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; font-weight: 800; margin: 0 0 6px; }
 .folio-hero__title { font-size: 18px; color: var(--folio-muted); margin: 0 0 12px; }
-.folio-hero__meta { display: flex; flex-wrap: wrap; gap: 12px 16px; color: var(--folio-muted); font-size: 14px; }
+.folio-hero__meta { display: flex; flex-direction: column; flex-wrap: wrap; gap: 12px 16px; color: var(--folio-muted); font-size: 14px; }
 .folio-hero__meta a { color: var(--folio-accent); text-decoration: none; }
 .folio-hero__meta a:hover { color: var(--folio-accent-2); }
 
