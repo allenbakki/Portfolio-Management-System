@@ -13,47 +13,19 @@ function LaunchPad() {
   const [rows, setRows] = useState([]);
 
   const {
-    professionalPortfolioLaunchId,
-    creativePortfolioLaunchId,
     setCreativePortfolioLaunchId,
     setProfessionalPortfolioLaunchId,
     accessToken,
   } = useGlobalContext();
 
-  useEffect(() => {
-    const initial = [];
-
-    if (professionalPortfolioLaunchId) {
-      initial.push({
-        template: "professional",
-        key: "Professional",
-        name: "Professional Portfolio",
-        launchId: professionalPortfolioLaunchId,
-      });
-    }
-
-    if (creativePortfolioLaunchId) {
-      initial.push({
-        template: "creative",
-        key: "Creative",
-        name: "Creative Portfolio",
-        launchId: creativePortfolioLaunchId,
-      });
-    }
-
-    setRows(initial);
-  }, [professionalPortfolioLaunchId, creativePortfolioLaunchId]);
-
-  // 2) on mount, pull any saved links from backend (so it works after refresh)
+  // ⬇️ ONLY this effect should load all rows
   useEffect(() => {
     if (!accessToken) return;
 
     (async () => {
       try {
         const res = await fetch("http://localhost:3000/api/launch-links", {
-          headers: {
-            Authorization: accessToken,
-          },
+          headers: { Authorization: accessToken },
         });
 
         if (!res.ok) {
@@ -78,12 +50,19 @@ function LaunchPad() {
 
         setRows(fromServer);
 
+        // Update context so other UI parts know
         data.links.forEach((link) => {
           if (link.template === "professional") {
             setProfessionalPortfolioLaunchId(link.launchId);
-          } else if (link.template === "creative") {
-            setCreativePortfolioLaunchId(link.launchId);
+            localStorage.setItem("professionalPortfolioLaunchId", JSON.stringify(link.launchId));
+
           }
+          if (link.template === "creative") {
+            setCreativePortfolioLaunchId(link.launchId);
+            localStorage.setItem("creativePortfolioLaunchId", JSON.stringify(link.launchId));
+
+          }
+          
         });
       } catch (err) {
         console.error("Error loading launch links:", err);
@@ -91,8 +70,9 @@ function LaunchPad() {
     })();
   }, [accessToken, setProfessionalPortfolioLaunchId, setCreativePortfolioLaunchId]);
 
-  const handleClick = async (record) => {
-    const template = record.template; // "creative" | "professional"
+  // ⬇️ Delete handler
+  const handleDelete = async (record) => {
+    const template = record.template;
 
     try {
       const res = await fetch("http://localhost:3000/api/delete", {
@@ -110,20 +90,24 @@ function LaunchPad() {
         return;
       }
 
-      // Remove from table
+      // Remove from UI
       setRows((prev) => prev.filter((row) => row.template !== template));
 
-      // Clear from context
+      // Remove from context + localStorage
       if (template === "creative") {
         setCreativePortfolioLaunchId("");
+        // localStorage.removeItem("creativePortfolioLaunchId");
       } else if (template === "professional") {
         setProfessionalPortfolioLaunchId("");
+        // localStorage.removeItem("professionalPortfolioLaunchId");
       }
+
     } catch (err) {
       console.error("Delete failed", err);
     }
   };
 
+  // ⬇️ Table data
   const data = rows.map((row) => ({
     key: row.key,
     name: row.name,
@@ -135,6 +119,7 @@ function LaunchPad() {
     template: row.template,
   }));
 
+  // ⬇️ Table Columns
   const columns = [
     {
       title: "Portfolio",
@@ -160,7 +145,7 @@ function LaunchPad() {
             <Button
               key={action}
               style={{ color: "red", border: "1px solid red" }}
-              onClick={() => handleClick(record)}
+              onClick={() => handleDelete(record)}
             >
               {action.toUpperCase()}
             </Button>
@@ -172,6 +157,7 @@ function LaunchPad() {
 
   return (
     <Layout style={{ height: "100vh", width: "100vw" }}>
+      {/* SIDE NAV */}
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div
           style={{
@@ -192,17 +178,18 @@ function LaunchPad() {
         <Navbar collapsed={collapsed} />
       </Sider>
 
+      {/* MAIN CONTENT */}
       <Content className="launchpad-content" style={{ height: "100%" }}>
         <div className="folio-logo-div">
           <h2 className="folio-logo">
             <GiButterfly /> Folio
           </h2>
         </div>
+
         <div style={{ display: "flex", height: "100%" }}>
           <div
             style={{
               flex: 1,
-              alignItems: "left",
               padding: "40px",
               background: "#fff",
             }}
