@@ -11,12 +11,11 @@ import CreativeTemplate from "./pages/templates/creativeTemplate/creativeTemplat
 
 import { useGlobalContext } from "./context/GlobalContext";
 import LaunchPad from "./pages/launchPad/launchPad";
-import AboutMe from "./pages/templates/creativeTemplate/aboutMe";
 
 function App() {
   const { isLogggedIn } = useGlobalContext();
 
-
+ 
   return (
     <div>
       <BrowserRouter>

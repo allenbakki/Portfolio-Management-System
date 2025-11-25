@@ -25,8 +25,7 @@ function DesignLab() {
       }
     }
     loadPortfolio();
-  }, []);
-
+  }, [accessToken]);
 
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();

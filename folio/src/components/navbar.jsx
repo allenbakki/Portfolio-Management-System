@@ -15,7 +15,13 @@ import {
 import { Menu } from "antd";
 import { useGlobalContext } from "../context/GlobalContext";
 
-const Navbar = ({ collapsed, flag = true, setCurrentTab,mode,setToDarkMode }) => {
+const Navbar = ({
+  collapsed,
+  flag = true,
+  setCurrentTab,
+  mode,
+  setToDarkMode,
+}) => {
   const navigate = useNavigate();
   const { isLogggedIn } = useGlobalContext();
 
@@ -54,12 +60,6 @@ const Navbar = ({ collapsed, flag = true, setCurrentTab,mode,setToDarkMode }) =>
     switch (e.key) {
       case "About Me":
         setCurrentTab("about");
-        break;
-      case "Vision":
-        setCurrentTab("Vision");
-        break;
-      case "Skills":
-        setCurrentTab("Skills");
         break;
       case "Experience":
         setCurrentTab("Experience");
@@ -109,8 +109,6 @@ const Navbar = ({ collapsed, flag = true, setCurrentTab,mode,setToDarkMode }) =>
             ]
           : [
               { key: "About Me", icon: <UserOutlined />, label: "About Me" },
-              { key: "Vision", icon: <EyeOutlined />, label: "Vision" },
-              { key: "Skills", icon: <RocketOutlined />, label: "Skills" },
               {
                 key: "Experience",
                 icon: <UsergroupAddOutlined />,

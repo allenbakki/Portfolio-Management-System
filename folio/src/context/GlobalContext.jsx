@@ -10,8 +10,8 @@ const GlobalContext = createContext({
   signOut: () => {},
   updateUserDetails: () => {},
   mode: false,
-  setToDarkMode:()=>{},
-  portfolio: null,  
+  setToDarkMode: () => {},
+  portfolio: null,
   setPortfolio: () => {},
 });
 
@@ -24,20 +24,27 @@ export const GlobalProvider = ({ children }) => {
     accessToken: "",
     refreshToken: "",
   });
+
   const [mode, setMode] = useState(false);
-  const setToDarkMode = (modeChange) => {
-    setMode(modeChange);
-  };
-  const [portfolio, setPortfolio] = useState(null);
+  const setToDarkMode = (modeChange) => setMode(modeChange);
 
+  const [portfolio, setPortfolio] = useState(() => {
+    // Initialize portfolio from localStorage if exists
+    const savedPortfolio = localStorage.getItem("portfolio");
+    return savedPortfolio ? JSON.parse(savedPortfolio) : null;
+  });
 
-  //this login
+  // Save portfolio to localStorage whenever it changes
+  useEffect(() => {
+    if (portfolio) {
+      localStorage.setItem("portfolio", JSON.stringify(portfolio));
+    }
+  }, [portfolio]);
+
+  // Update user details and persist to localStorage
   const updateUserDetails = (newUserDetails) => {
     setUserDetails((prev) => {
-      const updatedDetails = {
-        ...prev,
-        ...newUserDetails,
-      };
+      const updatedDetails = { ...prev, ...newUserDetails };
       localStorage.setItem("userDetails", JSON.stringify(updatedDetails));
       return updatedDetails;
     });
@@ -52,28 +59,36 @@ export const GlobalProvider = ({ children }) => {
       accessToken: "",
       refreshToken: "",
     });
+    setPortfolio(null);
   };
-  useEffect(() => {
-    const details = localStorage.getItem("userDetails");
 
-    if (details) {
-      const parseDetails = JSON.parse(details);
-      setUserDetails(parseDetails);
+  useEffect(() => {
+    const savedDetails = localStorage.getItem("userDetails");
+    if (savedDetails) {
+      setUserDetails(JSON.parse(savedDetails));
+    }
+
+    const savedPortfolio = localStorage.getItem("portfolio");
+    if (savedPortfolio) {
+      setPortfolio(JSON.parse(savedPortfolio));
     }
   }, []);
+
   return (
     <GlobalContext.Provider
-      value={{ signOut, ...userDetails, updateUserDetails,setToDarkMode ,mode,portfolio,setPortfolio}}
+      value={{
+        signOut,
+        ...userDetails,
+        updateUserDetails,
+        mode,
+        setToDarkMode,
+        portfolio,
+        setPortfolio,
+      }}
     >
       {children}
     </GlobalContext.Provider>
   );
 };
 
-// export const useGlobalContext = () => {
-//   return useContext(GlobalContext);
-// };
-
-export const useGlobalContext = () => {
-  return useContext(GlobalContext);
-};
+export const useGlobalContext = () => useContext(GlobalContext);
