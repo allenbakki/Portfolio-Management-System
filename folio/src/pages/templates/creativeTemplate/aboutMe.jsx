@@ -2,10 +2,8 @@ import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 import womenImg from "../creativeTemplate/assests/women.png";
 
 export default function AboutMe({ collapsed, portfolio }) {
-  // portfolio shape is: { success: true, portfolio: { general: { ... } } }
   const general = portfolio?.portfolio?.general || {};
 
-  // If portfolio hasn't loaded yet, don't crash
   if (!portfolio || !portfolio.portfolio) {
     return (
       <div
@@ -33,7 +31,6 @@ export default function AboutMe({ collapsed, portfolio }) {
         padding: 20,
       }}
     >
-      {/* Text Section */}
       <div
         style={{
           maxWidth: "500px",
@@ -72,7 +69,6 @@ export default function AboutMe({ collapsed, portfolio }) {
           {general.aboutMe || ""}
         </div>
 
-        {/* Contact Info */}
         <div
           style={{
             display: "flex",
@@ -99,7 +95,6 @@ export default function AboutMe({ collapsed, portfolio }) {
         </div>
       </div>
 
-      {/* Image Section */}
       <div
         style={{
           display: "flex",
@@ -132,7 +127,6 @@ export default function AboutMe({ collapsed, portfolio }) {
         <div style={{ fontSize: 22 }}>{general.professionalTitle}</div>
       </div>
 
-      {/* Animations */}
       <style>
         {`
           @keyframes fadeInUp {

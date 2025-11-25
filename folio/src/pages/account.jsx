@@ -41,14 +41,12 @@ function Account() {
 
             <div className="account-actions">
             <Button type="primary">Edit Profile</Button>
-            <Button>Change Password</Button>
             <Button danger onClick={signOut}>Log Out</Button>
             </div>
 
             <div className="account-section">
             <h3>Account Details</h3>
             <p><strong>Joined:</strong> {createDate || ""} </p>
-            {/* <p><strong>Portfolios:</strong> 1 active</p> */}
             </div>
         </div>
     </Content>

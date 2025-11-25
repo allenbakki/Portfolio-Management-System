@@ -40,7 +40,6 @@ export default function Experience({
         padding: 20,
       }}
     >
-      {/* Left Side */}
       <div
         style={{
           maxWidth: "500px",
@@ -64,7 +63,6 @@ export default function Experience({
        
       </div>
 
-      {/* Right Side */}
       <div
         style={{
           maxWidth: 700,
@@ -86,14 +84,12 @@ export default function Experience({
           `}
         </style>
 
-        {/* 🔥 Handle empty experience */}
         {experienceItems.length === 0 && (
           <div style={{ fontSize: 18, color: "#777", padding: 20 }}>
             No experience added yet.
           </div>
         )}
 
-        {/* Render experiences */}
         {experienceItems.length > 0 &&
           experienceItems.map((item, index) => (
             <div

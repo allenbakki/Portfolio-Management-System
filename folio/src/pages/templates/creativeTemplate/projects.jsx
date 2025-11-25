@@ -7,7 +7,7 @@ export default function Projects({
 }) {
   const { portfolio,accessToken } = useGlobalContext();
 
-  // Safe extraction
+
   const projectItems = Array.isArray(portfolio?.portfolio?.projects)
     ? portfolio.portfolio.projects
     : [];
@@ -15,7 +15,7 @@ export default function Projects({
   const colors = ["#99c5ff", "#ffffff"];
   const [visibleItems, setVisibleItems] = useState([]);
 
-  // Scroll animation
+
   useEffect(() => {
     const handleScroll = () => {
       const newVisible = projectItems.map((_, i) => {
@@ -35,7 +35,7 @@ export default function Projects({
 
   return (
     <div style={{ padding: 20 }}>
-      {/* Header */}
+
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <div
           style={{ fontFamily: '"Brittany Signature", cursive', fontSize: 50 }}
@@ -46,7 +46,6 @@ export default function Projects({
         <div style={{ marginTop: 10 }}>{aboutMe}</div>
       </div>
 
-      {/* If no projects */}
       {projectItems.length === 0 ? (
         <div
           style={{
@@ -59,7 +58,7 @@ export default function Projects({
           No projects added yet.
         </div>
       ) : (
-        // Projects Grid
+
         <div
           style={{
             display: "grid",
@@ -101,7 +100,6 @@ export default function Projects({
                   "0 3px 15px rgba(0,0,0,0.1)";
               }}
             >
-              {/* Title */}
               <div
                 style={{
                   fontSize: 18,
@@ -113,7 +111,6 @@ export default function Projects({
                 {item.title}
               </div>
 
-              {/* Link or timeline */}
               <div
                 style={{
                   fontSize: 16,
@@ -125,7 +122,6 @@ export default function Projects({
                 {item.link || item.timeline || "View Details"}
               </div>
 
-              {/* Description */}
               <div
                 style={{ fontSize: 16, lineHeight: "1.6em", color: "#333" }}
               >

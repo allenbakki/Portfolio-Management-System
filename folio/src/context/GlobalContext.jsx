@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState, createContext } from "react";
 const GlobalContext = createContext({});
 
 export const GlobalProvider = ({ children }) => {
-  // ---------------- USER DETAILS -------------------
   const [userDetails, setUserDetails] = useState({
     isLogggedIn: false,
     displayName: "",
@@ -13,16 +12,13 @@ export const GlobalProvider = ({ children }) => {
     refreshToken: "",
   });
 
-  // ---------------- MODE -------------------
   const [mode, setMode] = useState(false);
 
-  // ---------------- PORTFOLIO -------------------
   const [portfolio, setPortfolio] = useState(() => {
     const saved = localStorage.getItem("portfolio");
     return saved ? JSON.parse(saved) : null;
   });
 
-  // ---------------- LAUNCH IDS -------------------
   const [professionalPortfolioLaunchId, setProfessionalPortfolioLaunchId] = useState(
     () => localStorage.getItem("professionalPortfolioLaunchId") || ""
   );
@@ -30,7 +26,6 @@ export const GlobalProvider = ({ children }) => {
     () => localStorage.getItem("creativePortfolioLaunchId") || ""
   );
 
-  // ---------------- RESTORE FROM STORAGE -------------------
   useEffect(() => {
     const savedDetails = localStorage.getItem("userDetails");
     if (savedDetails) setUserDetails(JSON.parse(savedDetails));
@@ -39,13 +34,10 @@ export const GlobalProvider = ({ children }) => {
     if (savedPortfolio) setPortfolio(JSON.parse(savedPortfolio));
   }, []);
 
-  // ---------------- SAVE ON CHANGE -------------------
-  // Portfolio as JSON
   useEffect(() => {
     localStorage.setItem("portfolio", JSON.stringify(portfolio));
   }, [portfolio]);
 
-  // Launch IDs as plain strings
   useEffect(() => {
     localStorage.setItem("professionalPortfolioLaunchId", professionalPortfolioLaunchId);
   }, [professionalPortfolioLaunchId]);
@@ -54,7 +46,6 @@ export const GlobalProvider = ({ children }) => {
     localStorage.setItem("creativePortfolioLaunchId", creativePortfolioLaunchId);
   }, [creativePortfolioLaunchId]);
 
-  // ---------------- UPDATE USER DETAILS -------------------
   const updateUserDetails = (newUserDetails) => {
     setUserDetails((prev) => {
       const updated = { ...prev, ...newUserDetails };
@@ -63,7 +54,6 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  // ---------------- SIGN OUT -------------------
   const signOut = () => {
     localStorage.clear();
     setUserDetails({
@@ -81,20 +71,16 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        // User
         ...userDetails,
         updateUserDetails,
         signOut,
 
-        // Theme
         mode,
         setToDarkMode: setMode,
 
-        // Portfolio
         portfolio,
         setPortfolio,
 
-        // Launch IDs
         professionalPortfolioLaunchId,
         setProfessionalPortfolioLaunchId,
         creativePortfolioLaunchId,

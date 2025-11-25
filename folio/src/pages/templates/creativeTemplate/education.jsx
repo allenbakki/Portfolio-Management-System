@@ -7,7 +7,6 @@ export default function Education({
 }) {
   const { portfolio ,accessToken} = useGlobalContext();
 
-  // Safe extraction of education items
   const educationItems = Array.isArray(portfolio?.portfolio?.education)
     ? portfolio.portfolio.education
     : [];
@@ -32,7 +31,7 @@ export default function Education({
 
   return (
     <div style={{ padding: 20 }}>
-      {/* Header */}
+
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <div
           style={{
@@ -48,7 +47,6 @@ export default function Education({
         <div style={{ marginTop: 10 }}>{aboutMe}</div>
       </div>
 
-      {/* Timeline Container */}
       <div
         style={{
           position: "relative",
@@ -59,7 +57,6 @@ export default function Education({
           gap: 40,
         }}
       >
-        {/* Vertical Line */}
         <div
           style={{
             position: "absolute",
@@ -72,7 +69,6 @@ export default function Education({
           }}
         />
 
-        {/* If empty — show fallback */}
         {educationItems.length === 0 ? (
           <div
             style={{
@@ -115,7 +111,6 @@ export default function Education({
                   position: "relative",
                 }}
               >
-                {/* Icon: If your backend sends icons, use it. Otherwise fallback. */}
                 <div
                   style={{
                     position: "absolute",

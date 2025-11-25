@@ -18,7 +18,6 @@ function LaunchPad() {
     accessToken,
   } = useGlobalContext();
 
-  // ⬇️ ONLY this effect should load all rows
   useEffect(() => {
     if (!accessToken) return;
 
@@ -38,7 +37,7 @@ function LaunchPad() {
         if (!data.success || !Array.isArray(data.links)) return;
 
         const fromServer = data.links.map((link) => ({
-          template: link.template, // "creative" | "professional"
+          template: link.template, 
           key: link.template === "professional" ? "Professional" : "Creative",
           name:
             link.template === "professional"
@@ -49,7 +48,6 @@ function LaunchPad() {
 
         setRows(fromServer);
 
-        // Update context so other UI parts know
         data.links.forEach((link) => {
           if (link.template === "professional") {
             setProfessionalPortfolioLaunchId(link.launchId);
@@ -69,7 +67,6 @@ function LaunchPad() {
     })();
   }, [accessToken, setProfessionalPortfolioLaunchId, setCreativePortfolioLaunchId]);
 
-  // ⬇️ Delete handler
   const handleDelete = async (record) => {
     const template = record.template;
 
@@ -89,16 +86,14 @@ function LaunchPad() {
         return;
       }
 
-      // Remove from UI
       setRows((prev) => prev.filter((row) => row.template !== template));
 
-      // Remove from context + localStorage
       if (template === "creative") {
         setCreativePortfolioLaunchId("");
-        // localStorage.removeItem("creativePortfolioLaunchId");
+
       } else if (template === "professional") {
         setProfessionalPortfolioLaunchId("");
-        // localStorage.removeItem("professionalPortfolioLaunchId");
+
       }
 
     } catch (err) {
@@ -106,7 +101,6 @@ function LaunchPad() {
     }
   };
 
-  // ⬇️ Table data
   const data = rows.map((row) => ({
     key: row.key,
     name: row.name,
@@ -118,7 +112,6 @@ function LaunchPad() {
     template: row.template,
   }));
 
-  // ⬇️ Table Columns
   const columns = [
     {
       title: "Portfolio",
@@ -156,7 +149,6 @@ function LaunchPad() {
 
   return (
     <Layout style={{ height: "100vh", width: "100vw" }}>
-      {/* SIDE NAV */}
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div
           style={{
@@ -177,7 +169,6 @@ function LaunchPad() {
         <Navbar collapsed={collapsed} />
       </Sider>
 
-      {/* MAIN CONTENT */}
       <Content className="launchpad-content" style={{ height: "100%" }}>
         <div className="folio-logo-div">
           <h2 className="folio-logo">

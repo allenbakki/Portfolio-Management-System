@@ -51,10 +51,8 @@ export default function TemplatePage() {
   
       const data = await response.json();
   
-      // save id into global context
       setProfessionalPortfolioLaunchId(data.professionalLaunchId);
   
-      // open new tab
       window.open(
         `http://localhost:5173/launch-professional/${data.professionalLaunchId}`,
         "_blank"
