@@ -33,9 +33,9 @@ export const app = admin.initializeApp({
   databaseURL: process.env.databaseURL,
 });
 
-const secretKey =
-process.env.secretKey;
+const secretKey =process.env.secretKey;
 const refreshSecretKey =process.env.refreshSecretKey;
+
 
 
 export const verifyToken = async (token) => {
