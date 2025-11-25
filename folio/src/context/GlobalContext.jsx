@@ -39,7 +39,7 @@ export const GlobalProvider = ({ children }) => {
     if (portfolio) {
       localStorage.setItem("portfolio", JSON.stringify(portfolio));
     }
-  }, [portfolio]);
+  }, [accessToken]);
 
   // Update user details and persist to localStorage
   const updateUserDetails = (newUserDetails) => {
