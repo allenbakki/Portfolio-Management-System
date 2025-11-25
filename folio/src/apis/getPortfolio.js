@@ -1,11 +1,14 @@
 import axios from "axios";
 
+// const BASE_URL="https://folio-backend-buj1.onrender.com:3000/";
+const BASE_URL = "http://localhost:3000/";
+
 export async function getPortfolio(accessToken) {
     
   if (!accessToken) throw new Error("Access token is required");
 
   try {
-    const response = await axios.get("http://localhost:3000/getportfolio", {
+    const response = await axios.get(`${BASE_URL}getportfolio`, {
       headers: {
         Authorization: accessToken,
       },

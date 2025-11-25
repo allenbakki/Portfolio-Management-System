@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000/";
 
-
+// const BASE_URL="https://folio-backend-buj1.onrender.com:3000/";
 const loginCred = async (loginDetail) => {
   try {
     const response = await axios.post(`${BASE_URL}signIn`, loginDetail);
