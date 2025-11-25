@@ -106,8 +106,8 @@ function LaunchPad() {
     name: row.name,
     Link:
       row.template === "professional"
-        ? `https://folios-k0ta.onrender.com/launch-professional/${row.launchId}`
-        : `https://folios-k0ta.onrender.com/launch/${row.launchId}`,
+        ? `http://localhost:5173/launch-professional/${row.launchId}`
+        : `http://localhost:5173/launch/${row.launchId}`,
     actions: ["delete"],
     template: row.template,
   }));
