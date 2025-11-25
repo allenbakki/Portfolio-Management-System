@@ -8,6 +8,8 @@ const app = express();
 
 app.use(cors({ origin: true }));
 app.use(express.json());
+const port = process.env.port || 8000;
+
 
 // Root route
 app.get("/hello", (req, res) => {
@@ -19,6 +21,6 @@ app.get("/hello", (req, res) => {
 app.use("/", mainRoute);
 
 // Export function
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(port, () => console.log(`Server running on port ${port}`));
 
 // export const api = onRequest(app);

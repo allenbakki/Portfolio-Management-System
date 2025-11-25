@@ -16,17 +16,27 @@ const serviceAccount = JSON.parse(
   fs.readFileSync(path.join(__dirname, "authCredentials.json"), "utf-8")
 );
 
-
 export const app = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://folio-6be7b-default-rtdb.firebaseio.com"
-
+  credential: admin.credential.cert({
+    type: process.env.FIREBASE_TYPE,
+    project_id: process.env.FIREBASE_PROJECT_ID,
+    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    client_id: process.env.FIREBASE_CLIENT_ID,
+    auth_uri: process.env.auth_uri,
+    token_uri: process.env.token_uri,
+    auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
+    client_x509_cert_url: process.env.client_x509_cert_url,
+    universe_domain: process.env.universe_domain,
+  }),
+  databaseURL: process.env.databaseURL,
 });
 
+const secretKey =
+process.env.secretKey;
+const refreshSecretKey =process.env.refreshSecretKey;
 
-
-const secretKey = "asfdshkafvbsdkhlabfjawfbuqwerhfiopjweifhsdfjvnwdsawfenfhwxoueifhrwoeirgfqewbdfhwdvfiyegqwfiuqwebfiywenyfdg";
-const refreshSecretKey = "ascfdkwahfvbqoisadmhxfiuwemhfiwrefwrhefywerfyhwerifhwerfg2ywgerfxmqxwehfmxwqeufhowyegxfywfbrwecgfirw";
 
 export const verifyToken = async (token) => {
   return new Promise((resolve, reject) => {
