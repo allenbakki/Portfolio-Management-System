@@ -28,7 +28,7 @@ function App() {
         <Route path="/template" element={<TemplatePage />} />
         <Route path="/creative-template"element={<CreativeTemplate/>}/>
         <Route path={`/launch/:${creativePortfolioLaunchId}`} element={<CreativeTemplate />} />
-        <Route path={`/launch/:${professionalPortfolioLaunchId}`} element={<TemplatePage />} />
+        <Route path={`/launch-professional/:${professionalPortfolioLaunchId}`} element={<TemplatePage />} />
 
         {isLogggedIn && <Route path="/designlab" element={<DesignLab/>}/>}
         {isLogggedIn && <Route path="/launchpad" element={<LaunchPad/>}/>}

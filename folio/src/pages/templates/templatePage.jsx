@@ -42,7 +42,7 @@ export default function TemplatePage() {
       const data = await response.json();
 
      setProfessionalPortfolioLaunchId(data.professionalLaunchId);
-      window.open(`http://localhost:5173/launch/:${data.professionalLaunchId}`, "_blank");
+      window.open(`http://localhost:5173/launch-professional/:${data.professionalLaunchId}`, "_blank");
   
     } catch (err) {
       console.error("Launch failed", err);
