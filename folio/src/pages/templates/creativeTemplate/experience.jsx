@@ -3,43 +3,14 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 
 export default function Experience({
   collapsed,
-  aboutMe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 }) {
-  const { portfolio } = useGlobalContext();
+  const { portfolio,accessToken } = useGlobalContext();
 
-  console.log(portfolio.workExperience);
-  const experienceItems =
-  !portfolio?.workExperience || portfolio.workExperience.length === 0
-    ? [
-        {
-          company: "ABC Corp",
-          duration: "Jan 2021 - Dec 2022",
-          description:
-            "Worked on building scalable web applications using React and Node.js. Collaborated with cross-functional teams to deliver high-quality features. Mentored junior developers and improved code quality standards.",
-        },
-        {
-          company: "XYZ Solutions",
-          duration: "Feb 2020 - Dec 2020",
-          description:
-            "Developed mobile-first responsive designs and implemented APIs. Optimized performance and contributed to UI/UX improvements. Participated in agile sprints and code reviews.",
-        },
-        {
-          company: "TechNova",
-          duration: "Jun 2018 - Jan 2020",
-          description:
-            "Built and maintained full-stack applications. Worked on cloud deployments and database management. Coordinated with clients to deliver customized solutions on time.",
-        },
-        {
-          company: "Creative Studio",
-          duration: "Jan 2017 - May 2018",
-          description:
-            "Designed and implemented front-end solutions for creative projects. Focused on responsive design, accessibility, and interactive animations.",
-        },
-      ]
-    : portfolio.workExperience; // use the actual data if exists
+  const experienceItems = Array.isArray(portfolio?.portfolio?.workExperience)
+    ? portfolio.portfolio.workExperience
+    : [];
 
-
-  const colors = ["#99c5ff", "#ffffff"]; // original color combo
+  const colors = ["#99c5ff", "#ffffff"];
 
   const [visibleItems, setVisibleItems] = useState([]);
 
@@ -53,10 +24,11 @@ export default function Experience({
       });
       setVisibleItems(newVisible);
     };
+
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [accessToken]);
 
   return (
     <div
@@ -89,7 +61,7 @@ export default function Experience({
         <div style={{ fontSize: "50px", fontFamily: "sans-serif" }}>
           EXPERIENCE
         </div>
-        <div>{aboutMe}</div>
+       
       </div>
 
       {/* Right Side */}
@@ -114,51 +86,66 @@ export default function Experience({
           `}
         </style>
 
-        {experienceItems.map((item, index) => (
-          <div
-            id={`exp-${index}`}
-            key={index}
-            style={{
-              backgroundColor: colors[index % colors.length],
-              borderRadius: 10,
-              padding: 20,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              transform: visibleItems[index]
-                ? "translateY(0)"
-                : "translateY(50px)",
-              opacity: visibleItems[index] ? 1 : 0,
-              transition: "all 0.6s ease-in-out",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = visibleItems[index]
-                ? "translateY(0) scale(1)"
-                : "translateY(50px) scale(1)";
-              e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
-            }}
-          >
-            <div style={{ fontSize: 18, fontWeight: "bold", color: "black" }}>
-              {item.company}
-            </div>
+        {/* 🔥 Handle empty experience */}
+        {experienceItems.length === 0 && (
+          <div style={{ fontSize: 18, color: "#777", padding: 20 }}>
+            No experience added yet.
+          </div>
+        )}
+
+        {/* Render experiences */}
+        {experienceItems.length > 0 &&
+          experienceItems.map((item, index) => (
             <div
+              id={`exp-${index}`}
+              key={index}
               style={{
-                fontSize: 16,
-                fontStyle: "italic",
-                marginBottom: 10,
-                color: "#555",
+                backgroundColor: colors[index % colors.length],
+                borderRadius: 10,
+                padding: 20,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                transform: visibleItems[index]
+                  ? "translateY(0)"
+                  : "translateY(50px)",
+                opacity: visibleItems[index] ? 1 : 0,
+                transition: "all 0.6s ease-in-out",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 6px 20px rgba(0,0,0,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = visibleItems[index]
+                  ? "translateY(0) scale(1)"
+                  : "translateY(50px) scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0 2px 8px rgba(0,0,0,0.1)";
               }}
             >
-              {item.duration}
+              <div
+                style={{ fontSize: 18, fontWeight: "bold", color: "black" }}
+              >
+                {item.company}
+              </div>
+              <div
+                style={{
+                  fontSize: 16,
+                  fontStyle: "italic",
+                  marginBottom: 10,
+                  color: "#555",
+                }}
+              >
+                {item.duration}
+              </div>
+              <div
+                style={{ fontSize: 16, lineHeight: "1.6em", color: "#333" }}
+              >
+                {item.description}
+              </div>
             </div>
-            <div style={{ fontSize: 16, lineHeight: "1.6em", color: "#333" }}>
-              {item.description}
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

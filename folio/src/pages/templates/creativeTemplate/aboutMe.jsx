@@ -1,20 +1,10 @@
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 import womenImg from "../creativeTemplate/assests/women.png";
 import { useGlobalContext } from "../../../context/GlobalContext";
 
 export default function AboutMe({ collapsed }) {
   const {portfolio}=useGlobalContext();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setProfileImage(event.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <div
@@ -63,7 +53,7 @@ export default function AboutMe({ collapsed }) {
             animation: "fadeInUp 1s 0.6s forwards",
           }}
         >
-          {portfolio.portfolio.general?.aboutMe || "Hi, I'm Reshma a software developer from Hyderabad, India, with over 2 years of experience in software development. I specialize in building scalable and efficient applications, and i enjoy working on challenging projects that help me grow my skills. I am passionate about learning new technologies and constantly improving my craft to deliver high quality solutions."}
+          {portfolio.portfolio.general?.aboutMe || ""}
         </div>
 
         {/* Contact Info */}
@@ -76,18 +66,14 @@ export default function AboutMe({ collapsed }) {
             animation: "fadeInUp 1s 0.9s forwards",
           }}
         >
-          <a href="https://github.com/reshma" target="_blank">
-            <FaGithub size={28} />
-          </a>
-          <a href="https://linkedin.com/in/reshma" target="_blank">
+        
+          <a href={`https://linkedin.com/in/${portfolio.portfolio.general.linkedIn}`} target="_blank">
             <FaLinkedin size={28} />
           </a>
-          <a href="mailto:reshma@example.com">
+          <a href={`mailto:${portfolio.portfolio.general.email}`}>
             <FaEnvelope size={28} />
           </a>
-          <a href="tel:+911234567890">
-            <FaPhone size={28} />
-          </a>
+         
         </div>
       </div>
 

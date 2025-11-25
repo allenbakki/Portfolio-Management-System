@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Layout, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Navbar from "../../../components/navbar";
 import AboutMe from "./aboutMe";
-import Vision from "./vision";
-import Skills from "./skills";
 import Experience from "./experience";
 import Projects from "./projects";
 import Education from "./education";
 const { Sider, Content } = Layout;
 import { useGlobalContext } from "../../../context/GlobalContext";
-
 const SIDER_WIDTH = 200;
 const SIDER_COLLAPSED = 56;
 
@@ -18,16 +15,10 @@ export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("about me");
   const { mode, setToDarkMode } = useGlobalContext();
- 
-
   const renderContent = () => {
     switch (currentTab) {
       case "about":
         return <AboutMe collapsed={collapsed} />;
-      case "Vision":
-        return <Vision collapsed={collapsed} />;
-      case "Skills":
-        return <Skills collapsed={collapsed} />;
       case "Experience":
         return <Experience collapsed={collapsed} />;
       case "Projects":
@@ -123,7 +114,6 @@ export default function CreativeTemplate() {
             paddingRight: 30,
           }}
         >
-          {" "}
           <Button
             type="primary"
             onClick={() => {
