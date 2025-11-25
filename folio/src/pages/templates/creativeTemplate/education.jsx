@@ -7,7 +7,6 @@ export default function Education({
 }) {
   const { portfolio ,accessToken} = useGlobalContext();
 
-  console.log(portfolio)
   // Safe extraction of education items
   const educationItems = Array.isArray(portfolio?.portfolio?.education)
     ? portfolio.portfolio.education

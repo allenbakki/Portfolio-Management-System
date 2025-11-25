@@ -4,11 +4,9 @@ import { verifyToken } from "../auth/firebaseAuth.js";
 
 export async function saveUpdatePortfolio(req, res) {
   try {
-    console.log("authorisation: ")
 
     const data = req.body;
     const token = req.headers.authorization;
-    console.log("authorisation: ",token)
 
     if (!token) {
       return res.status(401).json({

@@ -10,11 +10,9 @@ import {
   
   export async function getUserDetails(req, res) {
     const { userId } = req.params;
-    console.log(userId);
   
     try {
       const userRecord = await auth.getUser(userId);
-      console.log(userRecord);
     } catch (error) {}
   }
   
@@ -28,7 +26,6 @@ import {
       const userDoc = await collectionRef.doc(uid).get();
       const userData = userDoc.data();
       const passwordref = userData.password || "";
-    console.log("reshma",passwordref)
       if (passwordref === password) {
         // Return user information or custom response
   

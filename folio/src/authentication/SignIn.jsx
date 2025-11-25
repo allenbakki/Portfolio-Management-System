@@ -40,7 +40,6 @@ function SignIn() {
         }
   
         const googleLoginResponse=await googleCred(googleLoginDetails);
-        console.log(googleLoginResponse.data)
   
         const newUserDetails = {
           isLogggedIn: true,
@@ -54,7 +53,6 @@ function SignIn() {
         updateUserDetails(newUserDetails);
         history("/");
       } catch (error) {
-        console.error("Google login error:", error);
         setError("Google login error:", error);
       }
     };
@@ -63,7 +61,6 @@ function SignIn() {
     e.preventDefault();
     loginCred(loginDetails)
       .then((response) => {
-        console.log(response);
         if (response.status == 200) {
           const newUserDetails = {
             isLogggedIn: true,

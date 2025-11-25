@@ -50,7 +50,6 @@ export default function TemplatePage() {
       }
   
       const data = await response.json();
-      console.log("Launch response (professional):", data);
   
       // save id into global context
       setProfessionalPortfolioLaunchId(data.professionalLaunchId);

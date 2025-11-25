@@ -5,7 +5,6 @@ const BASE_URL = "http://localhost:3000/";
 
 const portfolioDetails = async (portfolioDetails,accessToken) => {
   try {
-    console.log("Submitting portfolio details:", portfolioDetails,"accessToken: ",accessToken);
 
     const response = await axios.post(`${BASE_URL}portfolio`, portfolioDetails, {
       headers: {

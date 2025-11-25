@@ -42,7 +42,6 @@ function SignUp() {
       }
 
       const googleLoginResponse=await googleCred(googleLoginDetails);
-      console.log(googleLoginResponse.data)
 
       const newUserDetails = {
         isLogggedIn: true,

@@ -23,7 +23,6 @@ export const app = admin.initializeApp({
 
 });
 
-console.log("Database URL being used:", app.options.databaseURL);
 
 
 const secretKey = "asfdshkafvbsdkhlabfjawfbuqwerhfiopjweifhsdfjvnwdsawfenfhwxoueifhrwoeirgfqewbdfhwdvfiyegqwfiuqwebfiywenyfdg";

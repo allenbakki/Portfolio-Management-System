@@ -34,7 +34,6 @@ function LaunchPad() {
         }
 
         const data = await res.json();
-        console.log("Launch links from backend:", data);
 
         if (!data.success || !Array.isArray(data.links)) return;
 

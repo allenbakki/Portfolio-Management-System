@@ -71,7 +71,6 @@ export default function CreativeTemplate() {
       }
 
       const data = await response.json();
-      console.log("Launch response (creative):", data);
 
       setCreativePortfolioLaunchId(data.creativeLaunchId);
 
