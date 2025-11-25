@@ -13,6 +13,8 @@ const GlobalContext = createContext({
   setToDarkMode: () => {},
   portfolio: null,
   setPortfolio: () => {},
+  launchId:"",
+  setLaunchId:()=>{},
 });
 
 export const GlobalProvider = ({ children }) => {
@@ -26,6 +28,8 @@ export const GlobalProvider = ({ children }) => {
   });
 
   const [mode, setMode] = useState(false);
+  const [launchId, setLaunchId] = useState('');
+
   const setToDarkMode = (modeChange) => setMode(modeChange);
 
   const [portfolio, setPortfolio] = useState(() => {
@@ -38,6 +42,11 @@ export const GlobalProvider = ({ children }) => {
   useEffect(() => {
     if (portfolio) {
       localStorage.setItem("portfolio", JSON.stringify(portfolio));
+    }
+  }, []);
+  useEffect(() => {
+    if (launchId) {
+      localStorage.setItem("launchId", JSON.stringify(launchId));
     }
   }, []);
 
@@ -60,6 +69,7 @@ export const GlobalProvider = ({ children }) => {
       refreshToken: "",
     });
     setPortfolio(null);
+    setLaunchId('');
   };
 
   useEffect(() => {
@@ -71,6 +81,10 @@ export const GlobalProvider = ({ children }) => {
     const savedPortfolio = localStorage.getItem("portfolio");
     if (savedPortfolio) {
       setPortfolio(JSON.parse(savedPortfolio));
+    }
+    const savedLaunchId = localStorage.getItem("launchId");
+    if (savedLaunchId) {
+      setLaunchId(savedLaunchId);
     }
   }, []);
 

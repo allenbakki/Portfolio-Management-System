@@ -32,20 +32,15 @@ export default function CreativeTemplate() {
 
   const handleLaunch = async () => {
     try {
-      // Step 1: Hit API to fetch user details + generate filled template
-    //   const response = await fetch("http://localhost:5000/api/launch", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ template: "creative-template" }),
-    //   });
+        const response = await fetch("http://localhost:5000/api/launch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ template: "creative-template" }),
+      });
   
-    //   const data = await response.json();
-  
-      // response should give you the generated URL
-      // ex: "https://folio.myapp.com/portfolio/12345"
-  
-      // Step 2: Redirect user to the generated template URL
-      window.open("http://localhost:5173/launch/:launchId", "_blank");
+      const data = await response.json();
+     
+      window.open(`http://localhost:5173/launch/:${data.launchId}`, "_blank");
   
     } catch (err) {
       console.error("Launch failed", err);
