@@ -14,7 +14,7 @@ const SIDER_COLLAPSED = 56;
 export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
   const [currentTab, setCurrentTab] = useState("about me");
-  const { mode, setToDarkMode } = useGlobalContext();
+  const { mode, setToDarkMode,setCreativePortfolioLaunchId } = useGlobalContext();
   const renderContent = () => {
     switch (currentTab) {
       case "about":
@@ -39,6 +39,7 @@ export default function CreativeTemplate() {
       });
   
       const data = await response.json();
+      setCreativePortfolioLaunchId(data.creativeLaunchId);
      
       window.open(`http://localhost:5173/launch/:${data.creativeLaunchId}`, "_blank");
   

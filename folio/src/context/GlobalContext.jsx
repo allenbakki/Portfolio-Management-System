@@ -13,8 +13,10 @@ const GlobalContext = createContext({
   setToDarkMode: () => {},
   portfolio: null,
   setPortfolio: () => {},
-  launchId:"",
-  setLaunchId:()=>{},
+  creativePortfolioLaunchId:"",
+  setCreativePortfolioLaunchId:()=>{},
+  professionalPortfolioLaunchId:"",
+  setProfessionalPortfolioLaunchId:()=>{},
 });
 
 export const GlobalProvider = ({ children }) => {
@@ -28,9 +30,12 @@ export const GlobalProvider = ({ children }) => {
   });
 
   const [mode, setMode] = useState(false);
-  const [launchId, setLaunchId] = useState('');
+  const [creativePortfolioLaunchId, setCreativeLaunchId] = useState('');
+  const [professionalPortfolioLaunchId, setProfessionalLaunchId] = useState('');
 
   const setToDarkMode = (modeChange) => setMode(modeChange);
+  const setCreativePortfolioLaunchId = (creativePortfolioLaunchId) => setCreativeLaunchId(creativePortfolioLaunchId);
+  const setProfessionalPortfolioLaunchId = (professionalPortfolioLaunchId) => setProfessionalLaunchId(professionalPortfolioLaunchId);
 
   const [portfolio, setPortfolio] = useState(() => {
     // Initialize portfolio from localStorage if exists
@@ -43,11 +48,15 @@ export const GlobalProvider = ({ children }) => {
     if (portfolio) {
       localStorage.setItem("portfolio", JSON.stringify(portfolio));
     }
+    if (creativePortfolioLaunchId) {
+      localStorage.setItem("creativePortfolioLaunchId", JSON.stringify(creativePortfolioLaunchId));
+    }
+    if (professionalPortfolioLaunchId) {
+      localStorage.setItem("professionalPortfolioLaunchId", JSON.stringify(professionalPortfolioLaunchId));
+    }
   }, []);
   useEffect(() => {
-    if (launchId) {
-      localStorage.setItem("launchId", JSON.stringify(launchId));
-    }
+   
   }, []);
 
   // Update user details and persist to localStorage
@@ -69,7 +78,8 @@ export const GlobalProvider = ({ children }) => {
       refreshToken: "",
     });
     setPortfolio(null);
-    setLaunchId('');
+    setCreativePortfolioLaunchId('');
+    setProfessionalPortfolioLaunchId('')
   };
 
   useEffect(() => {
@@ -82,9 +92,13 @@ export const GlobalProvider = ({ children }) => {
     if (savedPortfolio) {
       setPortfolio(JSON.parse(savedPortfolio));
     }
-    const savedLaunchId = localStorage.getItem("launchId");
+    const savedLaunchId = localStorage.getItem("creativePortfolioLaunchId");
     if (savedLaunchId) {
-      setLaunchId(savedLaunchId);
+      setCreativePortfolioLaunchId(savedLaunchId);
+    }
+    const savedProfessionalLaunchId = localStorage.getItem("professionalPortfolioLaunchId");
+    if (savedLaunchId) {
+      setProfessionalPortfolioLaunchId(savedProfessionalLaunchId);
     }
   }, []);
 
@@ -98,6 +112,9 @@ export const GlobalProvider = ({ children }) => {
         setToDarkMode,
         portfolio,
         setPortfolio,
+        creativePortfolioLaunchId,
+        setCreativePortfolioLaunchId,
+        professionalPortfolioLaunchId,setProfessionalPortfolioLaunchId
       }}
     >
       {children}

@@ -16,7 +16,7 @@ export default function TemplatePage() {
   const [collapsed, setCollapsed] = useState(true);
   const [portfolio, setPortfolio] = useState(null);
 
-  const { accessToken } = useGlobalContext();
+  const { accessToken ,setProfessionalPortfolioLaunchId} = useGlobalContext();
 
   useEffect(() => {
     async function loadPortfolio() {
@@ -40,7 +40,8 @@ export default function TemplatePage() {
       });
   
       const data = await response.json();
-     
+
+     setProfessionalPortfolioLaunchId(data.professionalLaunchId);
       window.open(`http://localhost:5173/launch/:${data.professionalLaunchId}`, "_blank");
   
     } catch (err) {
