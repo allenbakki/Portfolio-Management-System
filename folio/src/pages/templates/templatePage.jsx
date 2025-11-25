@@ -31,6 +31,24 @@ export default function TemplatePage() {
     if (accessToken) loadPortfolio();
   }, [accessToken]);
 
+  const handleLaunch = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/api/launch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ template: "professional-template" }),
+      });
+  
+      const data = await response.json();
+     
+      window.open(`http://localhost:5173/launch/:${data.professionalLaunchId}`, "_blank");
+  
+    } catch (err) {
+      console.error("Launch failed", err);
+    }
+  };
+  
+
   return (
     <>
       <Sider
@@ -76,6 +94,29 @@ export default function TemplatePage() {
           minWidth: 0,
         }}
       >
+         <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                    padding: 10,
+                    paddingRight: 30,
+                  }}
+                >
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      handleLaunch() 
+                    }}
+                    style={{
+                      background: "#4CAF50",
+                      border: "none",
+                      fontSize: 16,
+                      padding: "6px 16px",
+                    }}
+                  >
+                    Launch 🚀
+                  </Button>
+                </div>
         <Content
           style={{
             background: "#fff",

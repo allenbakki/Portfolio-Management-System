@@ -32,7 +32,7 @@ export default function CreativeTemplate() {
 
   const handleLaunch = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/launch", {
+        const response = await fetch("http://localhost:3000/api/launch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ template: "creative-template" }),
@@ -40,7 +40,7 @@ export default function CreativeTemplate() {
   
       const data = await response.json();
      
-      window.open(`http://localhost:5173/launch/:${data.launchId}`, "_blank");
+      window.open(`http://localhost:5173/launch/:${data.creativeLaunchId}`, "_blank");
   
     } catch (err) {
       console.error("Launch failed", err);
