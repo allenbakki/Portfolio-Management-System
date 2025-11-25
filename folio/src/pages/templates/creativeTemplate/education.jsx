@@ -7,9 +7,10 @@ export default function Education({
 }) {
   const { portfolio ,accessToken} = useGlobalContext();
 
+  console.log(portfolio)
   // Safe extraction of education items
-  const educationItems = Array.isArray(portfolio?.education)
-    ? portfolio.education
+  const educationItems = Array.isArray(portfolio?.portfolio?.education)
+    ? portfolio.portfolio.education
     : [];
 
   const colors = ["#99c5ff", "#ffffff"];

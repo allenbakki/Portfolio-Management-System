@@ -6,8 +6,8 @@ export default function Experience({
 }) {
   const { portfolio,accessToken } = useGlobalContext();
 
-  const experienceItems = Array.isArray(portfolio?.workExperience)
-    ? portfolio.workExperience
+  const experienceItems = Array.isArray(portfolio?.portfolio?.workExperience)
+    ? portfolio.portfolio.workExperience
     : [];
 
   const colors = ["#99c5ff", "#ffffff"];

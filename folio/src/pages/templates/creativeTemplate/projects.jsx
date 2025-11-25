@@ -8,8 +8,8 @@ export default function Projects({
   const { portfolio,accessToken } = useGlobalContext();
 
   // Safe extraction
-  const projectItems = Array.isArray(portfolio?.projects)
-    ? portfolio.projects
+  const projectItems = Array.isArray(portfolio?.portfolio?.projects)
+    ? portfolio.portfolio.projects
     : [];
 
   const colors = ["#99c5ff", "#ffffff"];
