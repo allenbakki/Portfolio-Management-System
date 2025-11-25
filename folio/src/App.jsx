@@ -13,7 +13,7 @@ import { useGlobalContext } from "./context/GlobalContext";
 import LaunchPad from "./pages/launchPad/launchPad";
 
 function App() {
-  const { isLogggedIn } = useGlobalContext();
+  const { isLogggedIn ,creativePortfolioLaunchId,professionalPortfolioLaunchId} = useGlobalContext();
 
  
   return (
@@ -27,7 +27,9 @@ function App() {
         {isLogggedIn &&   <Route path="/account" element={<Account />} />}
         <Route path="/template" element={<TemplatePage />} />
         <Route path="/creative-template"element={<CreativeTemplate/>}/>
-        <Route path="/launch/:launchId" element={<CreativeTemplate />} />
+        <Route path="/launch/:creativeLaunchId" element={<CreativeTemplate />} />
+        <Route path="/launch-professional/:professionalLaunchId" element={<TemplatePage />} />
+        
         {isLogggedIn && <Route path="/designlab" element={<DesignLab/>}/>}
         {isLogggedIn && <Route path="/launchpad" element={<LaunchPad/>}/>}
         <Route path="/*" element={<Navigate to="/" />} />

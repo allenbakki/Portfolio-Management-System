@@ -1,10 +1,26 @@
 import { FaLinkedin, FaEnvelope } from "react-icons/fa";
 import womenImg from "../creativeTemplate/assests/women.png";
-import { useGlobalContext } from "../../../context/GlobalContext";
 
-export default function AboutMe({ collapsed }) {
-  const {portfolio}=useGlobalContext();
+export default function AboutMe({ collapsed, portfolio }) {
+  // portfolio shape is: { success: true, portfolio: { general: { ... } } }
+  const general = portfolio?.portfolio?.general || {};
 
+  // If portfolio hasn't loaded yet, don't crash
+  if (!portfolio || !portfolio.portfolio) {
+    return (
+      <div
+        style={{
+          padding: 20,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "200px",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div
@@ -53,7 +69,7 @@ export default function AboutMe({ collapsed }) {
             animation: "fadeInUp 1s 0.6s forwards",
           }}
         >
-          {portfolio.portfolio.general?.aboutMe || ""}
+          {general.aboutMe || ""}
         </div>
 
         {/* Contact Info */}
@@ -66,14 +82,20 @@ export default function AboutMe({ collapsed }) {
             animation: "fadeInUp 1s 0.9s forwards",
           }}
         >
-        
-          <a href={`https://linkedin.com/in/${portfolio.portfolio.general.linkedIn}`} target="_blank">
-            <FaLinkedin size={28} />
-          </a>
-          <a href={`mailto:${portfolio.portfolio.general.email}`}>
-            <FaEnvelope size={28} />
-          </a>
-         
+          {general.linkedIn && (
+            <a
+              href={`https://linkedin.com/in/${general.linkedIn}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaLinkedin size={28} />
+            </a>
+          )}
+          {general.email && (
+            <a href={`mailto:${general.email}`}>
+              <FaEnvelope size={28} />
+            </a>
+          )}
         </div>
       </div>
 
@@ -104,8 +126,10 @@ export default function AboutMe({ collapsed }) {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         />
 
-        <div style={{ fontWeight: "bold", fontSize: 30 }}>{portfolio.portfolio.general.name}</div>
-        <div style={{ fontSize: 22 }}>{portfolio.portfolio.general.professionalTitle}</div>
+        <div style={{ fontWeight: "bold", fontSize: 30 }}>
+          {general.name}
+        </div>
+        <div style={{ fontSize: 22 }}>{general.professionalTitle}</div>
       </div>
 
       {/* Animations */}

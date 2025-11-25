@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Navbar from "../../../components/navbar";
@@ -6,52 +6,83 @@ import AboutMe from "./aboutMe";
 import Experience from "./experience";
 import Projects from "./projects";
 import Education from "./education";
-const { Sider, Content } = Layout;
 import { useGlobalContext } from "../../../context/GlobalContext";
+import { getPortfolio } from "../../../apis/getPortfolio";
+
+const { Sider, Content } = Layout;
 const SIDER_WIDTH = 200;
 const SIDER_COLLAPSED = 56;
 
 export default function CreativeTemplate() {
   const [collapsed, setCollapsed] = useState(true);
-  const [currentTab, setCurrentTab] = useState("about me");
-  const { mode, setToDarkMode } = useGlobalContext();
+  const [currentTab, setCurrentTab] = useState("about");
+  const [portfolio, setPortfolio] = useState(null);
+
+  const {
+    mode,
+    setToDarkMode,
+    setCreativePortfolioLaunchId,
+    accessToken,
+  } = useGlobalContext();
+
+  useEffect(() => {
+    async function loadPortfolio() {
+      try {
+        const data = await getPortfolio(accessToken);
+        setPortfolio(data);
+      } catch (err) {
+        console.error("Failed to load portfolio (creative):", err);
+      }
+    }
+
+    if (accessToken) loadPortfolio();
+  }, [accessToken]);
+
   const renderContent = () => {
     switch (currentTab) {
       case "about":
-        return <AboutMe collapsed={collapsed} />;
+        return <AboutMe collapsed={collapsed} portfolio={portfolio} />;
       case "Experience":
-        return <Experience collapsed={collapsed} />;
+        return <Experience collapsed={collapsed} portfolio={portfolio} />;
       case "Projects":
-        return <Projects collapsed={collapsed} />;
+        return <Projects collapsed={collapsed} portfolio={portfolio} />;
       case "Education":
-        return <Education collapsed={collapsed} />;
+        return <Education collapsed={collapsed} portfolio={portfolio} />;
       default:
-        return <AboutMe />;
+        return <AboutMe collapsed={collapsed} portfolio={portfolio} />;
     }
   };
 
   const handleLaunch = async () => {
     try {
-      // Step 1: Hit API to fetch user details + generate filled template
-    //   const response = await fetch("http://localhost:5000/api/launch", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ template: "creative-template" }),
-    //   });
-  
-    //   const data = await response.json();
-  
-      // response should give you the generated URL
-      // ex: "https://folio.myapp.com/portfolio/12345"
-  
-      // Step 2: Redirect user to the generated template URL
-      window.open("http://localhost:5173/launch/:launchId", "_blank");
-  
+      const response = await fetch("http://localhost:3000/api/launch", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: accessToken,
+        },
+        body: JSON.stringify({ template: "creative" }),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => ({}));
+        console.error("Launch failed:", response.status, errorBody);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Launch response (creative):", data);
+
+      setCreativePortfolioLaunchId(data.creativeLaunchId);
+
+      window.open(
+        `http://localhost:5173/launch/${data.creativeLaunchId}`,
+        "_blank"
+      );
     } catch (err) {
       console.error("Launch failed", err);
     }
   };
-  
 
   return (
     <>
@@ -69,7 +100,7 @@ export default function CreativeTemplate() {
           height: "100vh",
           background: "#fff",
           zIndex: 100,
-          borderRight: mode ? "1px solid #444" : "1px solid #fff", // <-- border added
+          borderRight: mode ? "1px solid #444" : "1px solid #fff",
         }}
       >
         <div
@@ -116,9 +147,7 @@ export default function CreativeTemplate() {
         >
           <Button
             type="primary"
-            onClick={() => {
-              handleLaunch() 
-            }}
+            onClick={handleLaunch}
             style={{
               background: "#4CAF50",
               border: "none",
