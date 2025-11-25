@@ -1,25 +1,9 @@
 import React, { useContext, useEffect, useState, createContext } from "react";
 
-const GlobalContext = createContext({
-  isLogggedIn: false,
-  displayName: "",
-  email: "",
-  displayImage: "",
-  accessToken: "",
-  refreshToken: "",
-  signOut: () => {},
-  updateUserDetails: () => {},
-  mode: false,
-  setToDarkMode: () => {},
-  portfolio: null,
-  setPortfolio: () => {},
-  creativePortfolioLaunchId:"",
-  setCreativePortfolioLaunchId:()=>{},
-  professionalPortfolioLaunchId:"",
-  setProfessionalPortfolioLaunchId:()=>{},
-});
+const GlobalContext = createContext({});
 
 export const GlobalProvider = ({ children }) => {
+  // ---------------- USER DETAILS -------------------
   const [userDetails, setUserDetails] = useState({
     isLogggedIn: false,
     displayName: "",
@@ -29,45 +13,57 @@ export const GlobalProvider = ({ children }) => {
     refreshToken: "",
   });
 
+  // ---------------- MODE -------------------
   const [mode, setMode] = useState(false);
-  const [creativePortfolioLaunchId, setCreativeLaunchId] = useState('');
-  const [professionalPortfolioLaunchId, setProfessionalLaunchId] = useState('');
 
-  const setToDarkMode = (modeChange) => setMode(modeChange);
-  const setCreativePortfolioLaunchId = (creativePortfolioLaunchId) => setCreativeLaunchId(creativePortfolioLaunchId);
-  const setProfessionalPortfolioLaunchId = (professionalPortfolioLaunchId) => setProfessionalLaunchId(professionalPortfolioLaunchId);
-
+  // ---------------- PORTFOLIO -------------------
   const [portfolio, setPortfolio] = useState(() => {
-    // Initialize portfolio from localStorage if exists
-    const savedPortfolio = localStorage.getItem("portfolio");
-    return savedPortfolio ? JSON.parse(savedPortfolio) : null;
+    const saved = localStorage.getItem("portfolio");
+    return saved ? JSON.parse(saved) : null;
   });
 
-  // Save portfolio to localStorage whenever it changes
+  // ---------------- LAUNCH IDS -------------------
+  const [professionalPortfolioLaunchId, setProfessionalPortfolioLaunchId] = useState(
+    () => localStorage.getItem("professionalPortfolioLaunchId") || ""
+  );
+  const [creativePortfolioLaunchId, setCreativePortfolioLaunchId] = useState(
+    () => localStorage.getItem("creativePortfolioLaunchId") || ""
+  );
+
+  // ---------------- RESTORE FROM STORAGE -------------------
   useEffect(() => {
-    if (portfolio) {
-      localStorage.setItem("portfolio", JSON.stringify(portfolio));
-    }
-    if (creativePortfolioLaunchId) {
-      localStorage.setItem("creativePortfolioLaunchId", JSON.stringify(creativePortfolioLaunchId));
-    }
-    if (professionalPortfolioLaunchId) {
-      localStorage.setItem("professionalPortfolioLaunchId", JSON.stringify(professionalPortfolioLaunchId));
-    }
-  }, []);
-  useEffect(() => {
-   
+    const savedDetails = localStorage.getItem("userDetails");
+    if (savedDetails) setUserDetails(JSON.parse(savedDetails));
+
+    const savedPortfolio = localStorage.getItem("portfolio");
+    if (savedPortfolio) setPortfolio(JSON.parse(savedPortfolio));
   }, []);
 
-  // Update user details and persist to localStorage
+  // ---------------- SAVE ON CHANGE -------------------
+  // Portfolio as JSON
+  useEffect(() => {
+    localStorage.setItem("portfolio", JSON.stringify(portfolio));
+  }, [portfolio]);
+
+  // Launch IDs as plain strings
+  useEffect(() => {
+    localStorage.setItem("professionalPortfolioLaunchId", professionalPortfolioLaunchId);
+  }, [professionalPortfolioLaunchId]);
+
+  useEffect(() => {
+    localStorage.setItem("creativePortfolioLaunchId", creativePortfolioLaunchId);
+  }, [creativePortfolioLaunchId]);
+
+  // ---------------- UPDATE USER DETAILS -------------------
   const updateUserDetails = (newUserDetails) => {
     setUserDetails((prev) => {
-      const updatedDetails = { ...prev, ...newUserDetails };
-      localStorage.setItem("userDetails", JSON.stringify(updatedDetails));
-      return updatedDetails;
+      const updated = { ...prev, ...newUserDetails };
+      localStorage.setItem("userDetails", JSON.stringify(updated));
+      return updated;
     });
   };
 
+  // ---------------- SIGN OUT -------------------
   const signOut = () => {
     localStorage.clear();
     setUserDetails({
@@ -78,43 +74,31 @@ export const GlobalProvider = ({ children }) => {
       refreshToken: "",
     });
     setPortfolio(null);
-    setCreativePortfolioLaunchId('');
-    setProfessionalPortfolioLaunchId('')
+    setCreativePortfolioLaunchId("");
+    setProfessionalPortfolioLaunchId("");
   };
-
-  useEffect(() => {
-    const savedDetails = localStorage.getItem("userDetails");
-    if (savedDetails) {
-      setUserDetails(JSON.parse(savedDetails));
-    }
-
-    const savedPortfolio = localStorage.getItem("portfolio");
-    if (savedPortfolio) {
-      setPortfolio(JSON.parse(savedPortfolio));
-    }
-    const savedLaunchId = localStorage.getItem("creativePortfolioLaunchId");
-    if (savedLaunchId) {
-      setCreativePortfolioLaunchId(savedLaunchId);
-    }
-    const savedProfessionalLaunchId = localStorage.getItem("professionalPortfolioLaunchId");
-    if (savedLaunchId) {
-      setProfessionalPortfolioLaunchId(savedProfessionalLaunchId);
-    }
-  }, []);
 
   return (
     <GlobalContext.Provider
       value={{
-        signOut,
+        // User
         ...userDetails,
         updateUserDetails,
+        signOut,
+
+        // Theme
         mode,
-        setToDarkMode,
+        setToDarkMode: setMode,
+
+        // Portfolio
         portfolio,
         setPortfolio,
+
+        // Launch IDs
+        professionalPortfolioLaunchId,
+        setProfessionalPortfolioLaunchId,
         creativePortfolioLaunchId,
         setCreativePortfolioLaunchId,
-        professionalPortfolioLaunchId,setProfessionalPortfolioLaunchId
       }}
     >
       {children}
