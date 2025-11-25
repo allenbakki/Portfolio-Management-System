@@ -54,7 +54,7 @@ export default function TemplatePage() {
       setProfessionalPortfolioLaunchId(data.professionalLaunchId);
   
       window.open(
-        `http://localhost:5173/launch-professional/${data.professionalLaunchId}`,
+        `https://folios-k0ta.onrender.com/launch-professional/${data.professionalLaunchId}`,
         "_blank"
       );
   

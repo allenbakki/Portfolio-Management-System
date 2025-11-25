@@ -75,7 +75,7 @@ export default function CreativeTemplate() {
       setCreativePortfolioLaunchId(data.creativeLaunchId);
 
       window.open(
-        `http://localhost:5173/launch/${data.creativeLaunchId}`,
+        `https://folios-k0ta.onrender.com/launch/${data.creativeLaunchId}`,
         "_blank"
       );
     } catch (err) {
