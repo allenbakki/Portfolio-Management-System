@@ -5,7 +5,7 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 export default function Education({
   aboutMe = "Here’s a summary of my academic journey and milestones.",
 }) {
-  const { portfolio } = useGlobalContext();
+  const { portfolio ,accessToken} = useGlobalContext();
 
   // Safe extraction of education items
   const educationItems = Array.isArray(portfolio?.education)
@@ -28,7 +28,7 @@ export default function Education({
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [educationItems]);
+  }, [accessToken]);
 
   return (
     <div style={{ padding: 20 }}>

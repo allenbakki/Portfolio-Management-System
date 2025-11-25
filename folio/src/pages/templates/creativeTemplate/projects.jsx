@@ -5,7 +5,7 @@ export default function Projects({
   collapsed,
   aboutMe = "Here’s a quick overview of the projects I have worked on.",
 }) {
-  const { portfolio } = useGlobalContext();
+  const { portfolio,accessToken } = useGlobalContext();
 
   // Safe extraction
   const projectItems = Array.isArray(portfolio?.projects)
@@ -31,7 +31,7 @@ export default function Projects({
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [projectItems]);
+  }, [accessToken]);
 
   return (
     <div style={{ padding: 20 }}>

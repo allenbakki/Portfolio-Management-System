@@ -4,7 +4,7 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 export default function Experience({
   collapsed,
 }) {
-  const { portfolio } = useGlobalContext();
+  const { portfolio,accessToken } = useGlobalContext();
 
   const experienceItems = Array.isArray(portfolio?.workExperience)
     ? portfolio.workExperience
@@ -28,7 +28,7 @@ export default function Experience({
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [experienceItems]);
+  }, [accessToken]);
 
   return (
     <div
