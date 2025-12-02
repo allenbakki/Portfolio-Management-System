@@ -18,11 +18,19 @@ Folio is a lightweight app to build and preview a professional portfolio.
 4. Open the **Deisgn Lab** to see your portfolio rendered.
 5. Update the form anytime; revisit the preview to check changes.
 
-## Run locally
+## Run locally frontend
 ```bash
 npm install
 cd folio
 npm run dev
 ```
 
+## Run locally backend
+```bash
+npm install
+cd backend/functions
+node index.js
+```
+
 That's it! build your profile, preview it, and iterate.
+
